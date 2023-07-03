@@ -3,13 +3,7 @@ package org.fffd.l23o6.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
-import com.alipay.api.AlipayClient;
-import com.alipay.api.AlipayConfig;
-import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.alipay.api.response.AlipayTradePagePayResponse;
 import org.fffd.l23o6.dao.OrderDao;
 import org.fffd.l23o6.dao.RouteDao;
 import org.fffd.l23o6.dao.TrainDao;
@@ -23,10 +17,9 @@ import org.fffd.l23o6.pojo.entity.TrainEntity;
 import org.fffd.l23o6.pojo.enum_.PaymentType;
 import org.fffd.l23o6.pojo.vo.order.OrderVO;
 import org.fffd.l23o6.service.OrderService;
-import org.fffd.l23o6.util.factory.AilpayPaymentFactory;
+import org.fffd.l23o6.util.factory.AlipayPaymentFactory;
 import org.fffd.l23o6.util.factory.PaymentFactory;
 import org.fffd.l23o6.util.factory.WeChatPaymentFactory;
-import org.fffd.l23o6.util.strategy.payment.AlipayPaymentStrategy;
 import org.fffd.l23o6.util.strategy.payment.PaymentStrategy;
 import org.fffd.l23o6.util.strategy.train.GSeriesSeatStrategy;
 import org.fffd.l23o6.util.strategy.train.KSeriesSeatStrategy;
@@ -64,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
         if (seat == null) {
             throw new BizException(BizError.OUT_OF_SEAT);
         }
-        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat).price(0).paymentType(PaymentType.ALIPAY_PAY)
+        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat).price(100).paymentType(PaymentType.ALIPAY_PAY)
                 .status(OrderStatus.PENDING_PAYMENT).arrivalStationId(toStationId).departureStationId(fromStationId)
                 .build();
         train.setUpdatedAt(null);// force it to update
@@ -143,9 +136,9 @@ public class OrderServiceImpl implements OrderService {
     private PaymentStrategy choosePayment(PaymentType type) {
         PaymentFactory paymentFactory = null;
         if (type == PaymentType.ALIPAY_PAY) {
-            paymentFactory = new WeChatPaymentFactory();
+            paymentFactory = new AlipayPaymentFactory();
         } else if (type == PaymentType.WECHAT_PAY) {
-            paymentFactory = new AilpayPaymentFactory();
+            paymentFactory = new WeChatPaymentFactory();
         }
         assert paymentFactory != null;
         return paymentFactory.createPayment();
