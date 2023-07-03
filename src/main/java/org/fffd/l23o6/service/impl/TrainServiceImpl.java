@@ -82,7 +82,9 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public void changeTrain(Long id, String name, Long routeId, TrainType type, String date, List<Date> arrivalTimes,
                             List<Date> departureTimes) {
-        // TODO: edit train info, please refer to `addTrain` above
+        TrainEntity entity = trainDao.findById(id).get();
+        entity.setName(name).setRouteId(routeId).setTrainType(type).setDate(date).setArrivalTimes(arrivalTimes).setDepartureTimes(departureTimes);
+        trainDao.save(entity);
     }
 
     @Override
