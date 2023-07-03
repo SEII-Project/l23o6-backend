@@ -15,15 +15,26 @@ public class KSeriesSeatStrategy extends TrainSeatStrategy {
     private final Map<Integer, String> HARD_SLEEPER_SEAT_MAP = new HashMap<>();
     private final Map<Integer, String> SOFT_SEAT_MAP = new HashMap<>();
     private final Map<Integer, String> HARD_SEAT_MAP = new HashMap<>();
+    private final Map<Integer, String> NO_SEAT_MAP = new HashMap<>();
 
     private final Map<KSeriesSeatType, Map<Integer, String>> TYPE_MAP = new HashMap<>() {{
         put(KSeriesSeatType.SOFT_SLEEPER_SEAT, SOFT_SLEEPER_SEAT_MAP);
         put(KSeriesSeatType.HARD_SLEEPER_SEAT, HARD_SLEEPER_SEAT_MAP);
         put(KSeriesSeatType.SOFT_SEAT, SOFT_SEAT_MAP);
         put(KSeriesSeatType.HARD_SEAT, HARD_SEAT_MAP);
+        put(KSeriesSeatType.NO_SEAT, NO_SEAT_MAP);
     }};
-
-
+    
+    private final Map<KSeriesSeatType, Integer> PRICE_MAP = new HashMap<>() {
+        {
+            put(KSeriesSeatType.SOFT_SLEEPER_SEAT, 100);
+            put(KSeriesSeatType.HARD_SLEEPER_SEAT, 50);
+            put(KSeriesSeatType.SOFT_SEAT, 20);
+            put(KSeriesSeatType.HARD_SEAT, 10);
+            put(KSeriesSeatType.NO_SEAT, 5);
+        }
+    };
+    
     private KSeriesSeatStrategy() {
 
         int counter = 0;
@@ -42,6 +53,10 @@ public class KSeriesSeatStrategy extends TrainSeatStrategy {
 
         for (String s : Arrays.asList("3车1座", "3车2座", "3车3座", "3车4座", "3车5座", "3车6座", "3车7座", "3车8座", "3车9座", "3车10座", "4车1座", "4车2座", "4车3座", "4车4座", "4车5座", "4车6座", "4车7座", "4车8座", "4车9座", "4车10座")) {
             HARD_SEAT_MAP.put(counter++, s);
+        }
+        
+        for (String s: Arrays.asList("无座1", "无座2", "无座3", "无座4", "无座5", "无座6", "无座7", "无座8", "无座9", "无座10", "无座11", "无座12", "无座13", "无座14", "无座15")) {
+            NO_SEAT_MAP.put(counter++, s);
         }
     }
 
@@ -71,10 +86,11 @@ public class KSeriesSeatStrategy extends TrainSeatStrategy {
             case HARD_SLEEPER_SEAT -> SOFT_SLEEPER_SEAT_MAP.size();
             case SOFT_SEAT -> SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size();
             case HARD_SEAT -> SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size();
+            case NO_SEAT -> SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size();
             default -> 0;
         };
 
-        for (int i = startStationIndex; i < endStationIndex; i ++) {
+        for (int i = startStationIndex; i < startStationIndex + TYPE_MAP.get(type).size(); i ++) {
             for (int j = startIndex; j < startIndex + TYPE_MAP.get(type).size(); j ++) {
                 if (!seatMap[i][j]) {
                     seatMap[i][j] = true;
@@ -91,6 +107,7 @@ public class KSeriesSeatStrategy extends TrainSeatStrategy {
         int hardSleeperSeatCount = 0;
         int softSeatCount = 0;
         int hardSeatCount = 0;
+        int noSeatCount = 0;
 
         for (int i = startStationIndex; i < endStationIndex; i ++) {
             for (int j = 0; j < SOFT_SLEEPER_SEAT_MAP.size(); j ++) {
@@ -113,12 +130,21 @@ public class KSeriesSeatStrategy extends TrainSeatStrategy {
                     hardSeatCount ++;
                 }
             }
+            for (int j = SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size(); j < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size() + NO_SEAT_MAP.size(); j ++) {
+                if (!seatMap[i][j]) {
+                    noSeatCount ++;
+                }
+            }
         }
 
-        return Map.of(KSeriesSeatType.SOFT_SLEEPER_SEAT, softSleeperSeatCount, KSeriesSeatType.HARD_SLEEPER_SEAT, hardSleeperSeatCount, KSeriesSeatType.SOFT_SEAT, softSeatCount, KSeriesSeatType.HARD_SEAT, hardSeatCount);
+        return Map.of(KSeriesSeatType.SOFT_SLEEPER_SEAT, softSleeperSeatCount, KSeriesSeatType.HARD_SLEEPER_SEAT, hardSleeperSeatCount, KSeriesSeatType.SOFT_SEAT, softSeatCount, KSeriesSeatType.HARD_SEAT, hardSeatCount, KSeriesSeatType.NO_SEAT, noSeatCount);
     }
 
     public boolean[][] initSeatMap(int stationCount) {
-        return new boolean[stationCount - 1][SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size()];
+        return new boolean[stationCount - 1][SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size() + NO_SEAT_MAP.size()];
+    }
+    
+    public int getPrice(int startStationIndex, int endStationIndex, KSeriesSeatType type) {
+        return (endStationIndex - startStationIndex) * PRICE_MAP.get(type);
     }
 }

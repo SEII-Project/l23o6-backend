@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         if (seat == null) {
             throw new BizException(BizError.OUT_OF_SEAT);
         }
-        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat)
+        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat).price(0).paymentType(PaymentType.ALIPAY_PAY)
                 .status(OrderStatus.PENDING_PAYMENT).arrivalStationId(toStationId).departureStationId(fromStationId)
                 .build();
         train.setUpdatedAt(null);// force it to update
