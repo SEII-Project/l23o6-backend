@@ -3,13 +3,7 @@ package org.fffd.l23o6.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
-import com.alipay.api.AlipayClient;
-import com.alipay.api.AlipayConfig;
-import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.alipay.api.response.AlipayTradePagePayResponse;
 import org.fffd.l23o6.dao.OrderDao;
 import org.fffd.l23o6.dao.RouteDao;
 import org.fffd.l23o6.dao.TrainDao;
@@ -23,10 +17,9 @@ import org.fffd.l23o6.pojo.entity.TrainEntity;
 import org.fffd.l23o6.pojo.enum_.PaymentType;
 import org.fffd.l23o6.pojo.vo.order.OrderVO;
 import org.fffd.l23o6.service.OrderService;
-import org.fffd.l23o6.util.factory.AilpayPaymentFactory;
+import org.fffd.l23o6.util.factory.AlipayPaymentFactory;
 import org.fffd.l23o6.util.factory.PaymentFactory;
 import org.fffd.l23o6.util.factory.WeChatPaymentFactory;
-import org.fffd.l23o6.util.strategy.payment.AlipayPaymentStrategy;
 import org.fffd.l23o6.util.strategy.payment.PaymentStrategy;
 import org.fffd.l23o6.util.strategy.train.GSeriesSeatStrategy;
 import org.fffd.l23o6.util.strategy.train.KSeriesSeatStrategy;
@@ -64,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
         if (seat == null) {
             throw new BizException(BizError.OUT_OF_SEAT);
         }
-        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat)
+        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat).price(100).paymentType(PaymentType.ALIPAY_PAY)
                 .status(OrderStatus.PENDING_PAYMENT).arrivalStationId(toStationId).departureStationId(fromStationId)
                 .build();
         train.setUpdatedAt(null);// force it to update
@@ -109,14 +102,14 @@ public class OrderServiceImpl implements OrderService {
                 .build();
     }
 
-    public void cancelOrder(Long id) throws AlipayApiException {
+    public void cancelOrder(Long id, PaymentType paymentType) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
 
         if (order.getStatus() == OrderStatus.COMPLETED || order.getStatus() == OrderStatus.CANCELLED) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
         }
         
-        choosePayment(order.getPaymentType()).refund(order);
+        choosePayment(paymentType).refund(order);
         order.setStatus(OrderStatus.CANCELLED);
         orderDao.save(order);
         
@@ -124,14 +117,14 @@ public class OrderServiceImpl implements OrderService {
         user.setCredits(user.getCredits() + order.getPrice());
     }
 
-    public void payOrder(Long id) throws AlipayApiException {
+    public void payOrder(Long id, PaymentType paymentType) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
 
         if (order.getStatus() != OrderStatus.PENDING_PAYMENT) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
         }
         
-        choosePayment(order.getPaymentType()).pay(order);
+        choosePayment(paymentType).pay(order);
         order.setStatus(OrderStatus.COMPLETED);
         
         UserEntity user = userDao.findById(order.getUserId()).get();
@@ -143,9 +136,9 @@ public class OrderServiceImpl implements OrderService {
     private PaymentStrategy choosePayment(PaymentType type) {
         PaymentFactory paymentFactory = null;
         if (type == PaymentType.ALIPAY_PAY) {
-            paymentFactory = new WeChatPaymentFactory();
+            paymentFactory = new AlipayPaymentFactory();
         } else if (type == PaymentType.WECHAT_PAY) {
-            paymentFactory = new AilpayPaymentFactory();
+            paymentFactory = new WeChatPaymentFactory();
         }
         assert paymentFactory != null;
         return paymentFactory.createPayment();

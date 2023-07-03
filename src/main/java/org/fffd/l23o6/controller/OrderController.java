@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.fffd.l23o6.pojo.enum_.PaymentType;
 import org.fffd.l23o6.pojo.vo.order.CreateOrderRequest;
 import org.fffd.l23o6.pojo.vo.order.OrderIdVO;
 import org.fffd.l23o6.pojo.vo.order.OrderVO;
@@ -47,10 +48,10 @@ public class OrderController {
 
         switch (request.getStatus()) {
             case PAID:
-                orderService.payOrder(orderId);
+                orderService.payOrder(orderId, request.getPaymentType());
                 break;
             case CANCELLED:
-                orderService.cancelOrder(orderId);
+                orderService.cancelOrder(orderId, request.getPaymentType());
                 break;
             default:
                 throw new BizException(CommonErrorType.ILLEGAL_ARGUMENTS, "Invalid order status.");

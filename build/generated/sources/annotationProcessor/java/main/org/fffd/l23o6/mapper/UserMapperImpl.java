@@ -6,8 +6,8 @@ import org.fffd.l23o6.pojo.vo.user.UserVO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-02T16:23:09+0800",
-    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 20.0.1 (Oracle Corporation)"
+    date = "2023-07-03T12:40:30+0800",
+    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 public class UserMapperImpl implements UserMapper {
 
@@ -25,6 +25,7 @@ public class UserMapperImpl implements UserMapper {
         userVO.setIdn( userEntity.getIdn() );
         userVO.setType( userEntity.getType() );
         userVO.setCredits( userEntity.getCredits() );
+        userVO.setUserType( userEntity.getUserType() );
 
         return userVO;
     }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.fffd.l23o6.dao.UserDao;
 import org.fffd.l23o6.exception.BizError;
 import org.fffd.l23o6.pojo.entity.UserEntity;
+import org.fffd.l23o6.pojo.enum_.UserType;
 import org.fffd.l23o6.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userDao.save(UserEntity.builder().username(username).password(BCrypt.hashpw(password))
-                .name(name).idn(idn).credits(0).phone(phone).type(type).build());
+                .name(name).idn(idn).credits(0).phone(phone).type(type).userType(UserType.USER).build());
     }
 
     @Override
