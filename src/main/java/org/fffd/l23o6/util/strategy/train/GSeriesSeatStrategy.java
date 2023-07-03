@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.annotation.Nullable;
+import org.fffd.l23o6.pojo.entity.TrainEntity;
 
 
 public class GSeriesSeatStrategy extends TrainSeatStrategy {
@@ -62,13 +63,49 @@ public class GSeriesSeatStrategy extends TrainSeatStrategy {
 
     public @Nullable String allocSeat(int startStationIndex, int endStationIndex, GSeriesSeatType type, boolean[][] seatMap) {
         //endStationIndex - 1 = upper bound
-        // TODO
+        int startIndex = switch (type) {
+            case FIRST_CLASS_SEAT -> BUSINESS_SEAT_MAP.size();
+            case SECOND_CLASS_SEAT -> BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size();
+            default -> 0;
+        };
+
+        for (int i = startIndex; i < endStationIndex - 1; i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (!seatMap[j][i]) {
+                    seatMap[j][i] = true;
+                    return TYPE_MAP.get(type).get(i);
+                }
+            }
+        }
+
         return null;
     }
 
     public Map<GSeriesSeatType, Integer> getLeftSeatCount(int startStationIndex, int endStationIndex, boolean[][] seatMap) {
-        // TODO
-        return null;
+        int businessSeatCount = 0;
+        int firstClassSeatCount = 0;
+        int secondClassSeatCount = 0;
+
+        for (int i = startStationIndex; i < endStationIndex - 1; i++) {
+            for (int j = 0; j < BUSINESS_SEAT_MAP.size(); j++) {
+                if (!seatMap[i][j]) {
+                    businessSeatCount++;
+                }
+            }
+
+            for (int j = BUSINESS_SEAT_MAP.size(); j < BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size(); j++) {
+                if (!seatMap[i][j]) {
+                    firstClassSeatCount++;
+                }
+            }
+
+            for (int j = BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size(); j < BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size() + SECOND_CLASS_SEAT_MAP.size(); j++) {
+                if (!seatMap[i][j]) {
+                    secondClassSeatCount++;
+                }
+            }
+        }
+        return Map.of(GSeriesSeatType.BUSINESS_SEAT, businessSeatCount, GSeriesSeatType.FIRST_CLASS_SEAT, firstClassSeatCount, GSeriesSeatType.SECOND_CLASS_SEAT, secondClassSeatCount);
     }
 
     public boolean[][] initSeatMap(int stationCount) {
