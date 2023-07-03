@@ -43,12 +43,30 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public List<TrainVO> listTrains(Long startStationId, Long endStationId, String date) {
-        // TODO
         // First, get all routes contains [startCity, endCity]
+        List<RouteEntity> routeEntities = routeDao.findAll().stream()
+                .filter(route -> {
+                    int startIndex = route.getStationIds().indexOf(startStationId);
+                    int endIndex = route.getStationIds().indexOf(endStationId);
+                    return startIndex != -1 && (endIndex == -1 || startIndex < endIndex);
+                })
+                .collect(Collectors.toList()); // 收集所有符合条件的路线信息
+
+        if (routeEntities.isEmpty()) {
+            return Collections.emptyList(); // 返回一个空的列表
+        }
+
         // Then, Get all trains on that day with the wanted routes
+        List<TrainEntity> trains = trainDao.findAll().stream()
+                .filter(train -> train.getDate().equals(date) && routeEntities.stream().anyMatch(route -> route.getId().equals(train.getRouteId())))
+                .collect(Collectors.toList()); // 收集所有符合条件的列车信息
+
+        if (trains.isEmpty()) {
+            return Collections.emptyList(); // 返回一个空的列表
+        }
+
         // Finally, return the trains
-        
-        return null;
+        return trains.stream().map(TrainMapper.INSTANCE::toTrainVO).collect(Collectors.toList());
     }
 
     @Override

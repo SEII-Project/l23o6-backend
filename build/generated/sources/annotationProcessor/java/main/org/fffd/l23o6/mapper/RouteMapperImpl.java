@@ -8,7 +8,7 @@ import org.fffd.l23o6.pojo.vo.route.RouteVO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-03T10:48:10+0800",
+    date = "2023-07-03T14:00:52+0800",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 public class RouteMapperImpl implements RouteMapper {
