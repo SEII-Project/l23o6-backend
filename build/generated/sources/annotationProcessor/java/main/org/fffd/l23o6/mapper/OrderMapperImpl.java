@@ -7,8 +7,8 @@ import org.fffd.l23o6.pojo.vo.order.OrderVO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-02T16:23:09+0800",
-    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 20.0.1 (Oracle Corporation)"
+    date = "2023-07-03T10:48:10+0800",
+    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 public class OrderMapperImpl implements OrderMapper {
 

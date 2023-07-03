@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import org.fffd.l23o6.pojo.enum_.UserType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -37,6 +38,7 @@ public class UserEntity {
     private String phone;
     private String type;
     private String idn;
+    private UserType userType;
     
     private int credits;
 
