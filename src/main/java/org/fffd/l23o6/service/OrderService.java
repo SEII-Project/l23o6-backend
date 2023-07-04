@@ -7,7 +7,7 @@ import org.fffd.l23o6.pojo.enum_.PaymentType;
 import org.fffd.l23o6.pojo.vo.order.OrderVO;
 
 public interface OrderService {
-    Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType, Long seatNumber);
+    Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType, Long seatNumber, int price);
     List<OrderVO> listOrders(String username);
     OrderVO getOrder(Long id);
     void cancelOrder(Long id, PaymentType paymentType) throws AlipayApiException;

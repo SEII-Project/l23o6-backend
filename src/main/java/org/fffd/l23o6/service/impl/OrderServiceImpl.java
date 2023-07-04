@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     private final RouteDao routeDao;
 
     public Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType,
-            Long seatNumber) {
+            Long seatNumber, int price) {
         Long userId = userDao.findByUsername(username).getId();
         TrainEntity train = trainDao.findById(trainId).get();
         RouteEntity route = routeDao.findById(train.getRouteId()).get();
@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
         if (seat == null) {
             throw new BizException(BizError.OUT_OF_SEAT);
         }
-        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat).price(100).paymentType(PaymentType.ALIPAY_PAY)
+        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat).price(price).paymentType(PaymentType.ALIPAY_PAY)
                 .status(OrderStatus.PENDING_PAYMENT).arrivalStationId(toStationId).departureStationId(fromStationId)
                 .build();
         train.setUpdatedAt(null);// force it to update
