@@ -117,20 +117,22 @@ public class OrderServiceImpl implements OrderService {
         user.setCredits(user.getCredits() + order.getPrice());
     }
 
-    public void payOrder(Long id, PaymentType paymentType) throws AlipayApiException {
+    public String payOrder(Long id, PaymentType paymentType) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
 
         if (order.getStatus() != OrderStatus.PENDING_PAYMENT) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
         }
         
-        choosePayment(paymentType).pay(order);
+        String responseBody = choosePayment(paymentType).pay(order);
         order.setStatus(OrderStatus.COMPLETED);
         
         UserEntity user = userDao.findById(order.getUserId()).get();
         user.setCredits(user.getCredits() + order.getPrice());
         
         orderDao.save(order);
+        
+        return responseBody;
     }
     
     private PaymentStrategy choosePayment(PaymentType type) {

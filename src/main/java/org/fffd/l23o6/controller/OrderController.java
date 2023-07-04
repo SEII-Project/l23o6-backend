@@ -45,10 +45,10 @@ public class OrderController {
 
     @PatchMapping ("order/{orderId}")
     public CommonResponse<?> patchOrder(@PathVariable("orderId") Long orderId, @Valid @RequestBody PatchOrderRequest request) throws AlipayApiException {
-
+        String responseBody = null;
         switch (request.getStatus()) {
             case PAID:
-                orderService.payOrder(orderId, request.getPaymentType());
+                responseBody = orderService.payOrder(orderId, request.getPaymentType());
                 break;
             case CANCELLED:
                 orderService.cancelOrder(orderId, request.getPaymentType());
@@ -57,6 +57,6 @@ public class OrderController {
                 throw new BizException(CommonErrorType.ILLEGAL_ARGUMENTS, "Invalid order status.");
         }
 
-        return CommonResponse.success();
+        return CommonResponse.success(responseBody);
     }
 }

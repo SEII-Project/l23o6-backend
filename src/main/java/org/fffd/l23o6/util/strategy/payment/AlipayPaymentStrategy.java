@@ -15,7 +15,7 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
     AlipayConfig alipayConfig = new AlipayConfig();
     
     @Override
-    public void pay(final OrderEntity order) throws AlipayApiException {
+    public String pay(final OrderEntity order) throws AlipayApiException {
         AlipayClient alipayClient = new DefaultAlipayClient(getAlipayConfig());
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
         //异步接收地址，仅支持http/https，公网可访问
@@ -40,6 +40,8 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         } else {
             System.out.println("调用失败");
         }
+        
+        return response.getBody();
     }
     
     @Override
