@@ -26,7 +26,9 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    private String tradeId;
+    
     @NotNull
     private Long userId;
 

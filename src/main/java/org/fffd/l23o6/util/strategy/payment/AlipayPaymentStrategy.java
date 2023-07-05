@@ -14,7 +14,8 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import org.fffd.l23o6.pojo.entity.OrderEntity;
 import org.fffd.l23o6.pojo.enum_.OrderStatus;
 
-import java.util.ArrayList;
+import java.nio.ByteBuffer;
+import java.util.UUID;
 
 public class AlipayPaymentStrategy extends PaymentStrategy {
     AlipayConfig alipayConfig = new AlipayConfig();
@@ -30,7 +31,11 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         
         JSONObject bizContent = new JSONObject();
         //商户订单号，商家自定义，保持唯一性
-        bizContent.put("out_trade_no", order.getId().toString());
+        long timeStamp = System.currentTimeMillis();
+        byte[] timeStampBytes = ByteBuffer.allocate(Long.BYTES).putLong(timeStamp).array();
+        UUID uuid = UUID.nameUUIDFromBytes(timeStampBytes);
+        order.setTradeId(uuid.toString());
+        bizContent.put("out_trade_no", uuid.toString());
         //支付金额，最小值0.01元
         bizContent.put("total_amount", order.getPrice());
         //订单标题，不可使用特殊符号
@@ -54,9 +59,8 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         AlipayClient alipayClient = new DefaultAlipayClient(getAlipayConfig());
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         JSONObject bizContent = new JSONObject();
-        bizContent.put("trade_no", order.getId().toString());
+        bizContent.put("trade_no", order.getTradeId());
         bizContent.put("refund_amount", order.getPrice());
-        bizContent.put("out_request_no", order.getId().toString());
         
         request.setBizContent(bizContent.toString());
         AlipayTradeRefundResponse response = alipayClient.execute(request);
@@ -85,15 +89,9 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         JSONObject bizContent = new JSONObject();
         
-        bizContent.put("out_trade_no", order.getId());
+        bizContent.put("out_trade_no", order.getTradeId());
         request.setBizContent(bizContent.toString());
         AlipayTradeQueryResponse response = alipayClient.execute(request);
-        
-/*        if(response.isSuccess()){
-            System.out.println("调用成功");
-        } else {
-            System.out.println("调用失败");
-        }*/
         
         String tradeStatus = response.getTradeStatus();
         if (tradeStatus == null) return OrderStatus.PENDING_PAYMENT;

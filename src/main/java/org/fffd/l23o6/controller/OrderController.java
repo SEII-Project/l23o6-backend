@@ -47,14 +47,9 @@ public class OrderController {
     public CommonResponse<?> patchOrder(@PathVariable("orderId") Long orderId, @Valid @RequestBody PatchOrderRequest request) throws AlipayApiException {
         String responseBody = null;
         switch (request.getStatus()) {
-            case PENDING_PAYMENT:
-                responseBody = orderService.payOrder(orderId, request.getPaymentType());
-                break;
-            case CANCELLED:
-                orderService.cancelOrder(orderId);
-                break;
-            default:
-                throw new BizException(CommonErrorType.ILLEGAL_ARGUMENTS, "Invalid order status.");
+            case PENDING_PAYMENT -> responseBody = orderService.payOrder(orderId, request.getPaymentType());
+            case CANCELLED -> orderService.cancelOrder(orderId);
+            default -> throw new BizException(CommonErrorType.ILLEGAL_ARGUMENTS, "Invalid order status.");
         }
 
         return CommonResponse.success(responseBody);
