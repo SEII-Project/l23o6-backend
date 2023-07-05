@@ -7,7 +7,7 @@ import org.fffd.l23o6.pojo.vo.order.OrderVO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-04T00:52:15+0800",
+    date = "2023-07-05T22:35:54+0800",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 public class OrderMapperImpl implements OrderMapper {
@@ -27,6 +27,8 @@ public class OrderMapperImpl implements OrderMapper {
         orderVO.trainId( entity.getTrainId() );
         orderVO.createdAt( entity.getCreatedAt() );
         orderVO.seat( entity.getSeat() );
+        orderVO.price( entity.getPrice() );
+        orderVO.discount( entity.getDiscount() );
 
         return orderVO.build();
     }

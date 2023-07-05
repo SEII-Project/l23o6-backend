@@ -20,6 +20,7 @@ import org.fffd.l23o6.service.OrderService;
 import org.fffd.l23o6.util.factory.AlipayPaymentFactory;
 import org.fffd.l23o6.util.factory.PaymentFactory;
 import org.fffd.l23o6.util.factory.WeChatPaymentFactory;
+import org.fffd.l23o6.util.strategy.payment.CreditsDiscountStrategy;
 import org.fffd.l23o6.util.strategy.payment.PaymentStrategy;
 import org.fffd.l23o6.util.strategy.train.GSeriesSeatStrategy;
 import org.fffd.l23o6.util.strategy.train.KSeriesSeatStrategy;
@@ -35,9 +36,10 @@ public class OrderServiceImpl implements OrderService {
     private final UserDao userDao;
     private final TrainDao trainDao;
     private final RouteDao routeDao;
+    private final CreditsDiscountStrategy creditsDiscountStrategy = new CreditsDiscountStrategy();
 
     public Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType,
-            Long seatNumber, int price) {
+            Long seatNumber, double price) {
         Long userId = userDao.findByUsername(username).getId();
         TrainEntity train = trainDao.findById(trainId).get();
         RouteEntity route = routeDao.findById(train.getRouteId()).get();
@@ -57,8 +59,9 @@ public class OrderServiceImpl implements OrderService {
         if (seat == null) {
             throw new BizException(BizError.OUT_OF_SEAT);
         }
-        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat).price(price).paymentType(PaymentType.ALIPAY_PAY)
-                .status(OrderStatus.PENDING_PAYMENT).arrivalStationId(toStationId).departureStationId(fromStationId)
+        price = creditsDiscountStrategy.calculatePrice(price, userDao.findByUsername(username).getCredits());
+        OrderEntity order = OrderEntity.builder().trainId(trainId).userId(userId).seat(seat).price(price).discount(creditsDiscountStrategy.calculateDiscount(userDao.findByUsername(username).getCredits())).
+                paymentType(PaymentType.ALIPAY_PAY).status(OrderStatus.PENDING_PAYMENT).arrivalStationId(toStationId).departureStationId(fromStationId)
                 .build();
         train.setUpdatedAt(null);// force it to update
         trainDao.save(train);
@@ -83,6 +86,8 @@ public class OrderServiceImpl implements OrderService {
                         .endStationId(order.getArrivalStationId())
                         .departureTime(train.getDepartureTimes().get(startIndex))
                         .arrivalTime(train.getArrivalTimes().get(endIndex))
+                        .price(order.getPrice())
+                        .discount(order.getDiscount())
                         .build();
             } catch (AlipayApiException e) {
                 throw new RuntimeException(e);
@@ -103,6 +108,8 @@ public class OrderServiceImpl implements OrderService {
                 .endStationId(order.getArrivalStationId())
                 .departureTime(train.getDepartureTimes().get(startIndex))
                 .arrivalTime(train.getArrivalTimes().get(endIndex))
+                .price(order.getPrice())
+                .discount(order.getDiscount())
                 .build();
     }
     
@@ -120,9 +127,6 @@ public class OrderServiceImpl implements OrderService {
         choosePayment(order.getPaymentType()).refund(order);
         order.setStatus(OrderStatus.CANCELLED);
         orderDao.save(order);
-        
-        UserEntity user = userDao.findById(order.getUserId()).get();
-        user.setCredits(user.getCredits() + order.getPrice());
     }
 
     public String payOrder(Long id, PaymentType paymentType) throws AlipayApiException {
@@ -136,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.COMPLETED);
         
         UserEntity user = userDao.findById(order.getUserId()).get();
-        user.setCredits(user.getCredits() + order.getPrice());
+        user.setCredits((int) Math.floor(user.getCredits() + order.getPrice()));
         
         orderDao.save(order);
         
