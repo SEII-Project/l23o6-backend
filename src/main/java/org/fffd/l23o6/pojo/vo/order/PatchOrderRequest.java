@@ -15,7 +15,6 @@ public class PatchOrderRequest {
     @NotNull
     private OrderStatus status;
 
-    @Schema(description = "支付方式", required = true)
-    @NotNull
+    @Schema(description = "支付方式")
     private PaymentType paymentType;
 }

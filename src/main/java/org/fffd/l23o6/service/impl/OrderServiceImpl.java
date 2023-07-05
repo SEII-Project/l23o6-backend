@@ -102,14 +102,14 @@ public class OrderServiceImpl implements OrderService {
                 .build();
     }
 
-    public void cancelOrder(Long id, PaymentType paymentType) throws AlipayApiException {
+    public void cancelOrder(Long id) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
 
         if (order.getStatus() == OrderStatus.COMPLETED || order.getStatus() == OrderStatus.CANCELLED) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
         }
         
-        choosePayment(paymentType).refund(order);
+        choosePayment(order.getPaymentType()).refund(order);
         order.setStatus(OrderStatus.CANCELLED);
         orderDao.save(order);
         

@@ -10,6 +10,6 @@ public interface OrderService {
     Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType, Long seatNumber, int price);
     List<OrderVO> listOrders(String username);
     OrderVO getOrder(Long id);
-    void cancelOrder(Long id, PaymentType paymentType) throws AlipayApiException;
+    void cancelOrder(Long id) throws AlipayApiException;
     String payOrder(Long id, PaymentType paymentType) throws AlipayApiException;
 }
