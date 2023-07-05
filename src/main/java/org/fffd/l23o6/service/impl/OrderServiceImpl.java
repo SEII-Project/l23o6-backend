@@ -75,31 +75,39 @@ public class OrderServiceImpl implements OrderService {
             RouteEntity route = routeDao.findById(train.getRouteId()).get();
             int startIndex = route.getStationIds().indexOf(order.getDepartureStationId());
             int endIndex = route.getStationIds().indexOf(order.getArrivalStationId());
-            return OrderVO.builder().id(order.getId()).trainId(order.getTrainId())
-                    .seat(order.getSeat()).status(order.getStatus().getText())
-                    .createdAt(order.getCreatedAt())
-                    .startStationId(order.getDepartureStationId())
-                    .endStationId(order.getArrivalStationId())
-                    .departureTime(train.getDepartureTimes().get(startIndex))
-                    .arrivalTime(train.getArrivalTimes().get(endIndex))
-                    .build();
+            try {
+                return OrderVO.builder().id(order.getId()).trainId(order.getTrainId())
+                        .seat(order.getSeat()).status(getOrderStatus(order).getText())
+                        .createdAt(order.getCreatedAt())
+                        .startStationId(order.getDepartureStationId())
+                        .endStationId(order.getArrivalStationId())
+                        .departureTime(train.getDepartureTimes().get(startIndex))
+                        .arrivalTime(train.getArrivalTimes().get(endIndex))
+                        .build();
+            } catch (AlipayApiException e) {
+                throw new RuntimeException(e);
+            }
         }).collect(Collectors.toList());
     }
 
-    public OrderVO getOrder(Long id) {
+    public OrderVO getOrder(Long id) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
         TrainEntity train = trainDao.findById(order.getTrainId()).get();
         RouteEntity route = routeDao.findById(train.getRouteId()).get();
         int startIndex = route.getStationIds().indexOf(order.getDepartureStationId());
         int endIndex = route.getStationIds().indexOf(order.getArrivalStationId());
         return OrderVO.builder().id(order.getId()).trainId(order.getTrainId())
-                .seat(order.getSeat()).status(order.getStatus().getText())
+                .seat(order.getSeat()).status(getOrderStatus(order).getText())
                 .createdAt(order.getCreatedAt())
                 .startStationId(order.getDepartureStationId())
                 .endStationId(order.getArrivalStationId())
                 .departureTime(train.getDepartureTimes().get(startIndex))
                 .arrivalTime(train.getArrivalTimes().get(endIndex))
                 .build();
+    }
+    
+    public OrderStatus getOrderStatus(OrderEntity orderEntity) throws AlipayApiException {
+        return choosePayment(orderEntity.getPaymentType()).query(orderEntity);
     }
 
     public void cancelOrder(Long id) throws AlipayApiException {

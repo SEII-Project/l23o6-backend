@@ -6,10 +6,15 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayConfig;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import org.fffd.l23o6.pojo.entity.OrderEntity;
+import org.fffd.l23o6.pojo.enum_.OrderStatus;
+
+import java.util.ArrayList;
 
 public class AlipayPaymentStrategy extends PaymentStrategy {
     AlipayConfig alipayConfig = new AlipayConfig();
@@ -72,5 +77,29 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         alipayConfig.setSignType("RSA2");
         
         return alipayConfig;
+    }
+    
+    @Override
+    public OrderStatus query(final OrderEntity order) throws AlipayApiException {
+        AlipayClient alipayClient = new DefaultAlipayClient(getAlipayConfig());
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+        JSONObject bizContent = new JSONObject();
+        
+        bizContent.put("out_trade_no", order.getId());
+        request.setBizContent(bizContent.toString());
+        AlipayTradeQueryResponse response = alipayClient.execute(request);
+        
+/*        if(response.isSuccess()){
+            System.out.println("调用成功");
+        } else {
+            System.out.println("调用失败");
+        }*/
+        
+        String tradeStatus = response.getTradeStatus();
+        if (tradeStatus == null) return OrderStatus.PENDING_PAYMENT;
+        else if (tradeStatus.equals("WAIT_BUYER_PAY")) return OrderStatus.PENDING_PAYMENT;
+        else if (tradeStatus.equals("TRADE_SUCCESS")) return OrderStatus.PAID;
+        else if (tradeStatus.equals("TRADE_FINISHED")) return OrderStatus.COMPLETED;
+        else return OrderStatus.CANCELLED;
     }
 }

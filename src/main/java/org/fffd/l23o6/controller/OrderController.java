@@ -39,7 +39,7 @@ public class OrderController {
     }
 
     @GetMapping("order/{orderId}")
-    public CommonResponse<OrderVO> getOrder(@PathVariable("orderId") Long orderId) {
+    public CommonResponse<OrderVO> getOrder(@PathVariable("orderId") Long orderId) throws AlipayApiException {
         return CommonResponse.success(orderService.getOrder(orderId));
     }
 
@@ -47,7 +47,7 @@ public class OrderController {
     public CommonResponse<?> patchOrder(@PathVariable("orderId") Long orderId, @Valid @RequestBody PatchOrderRequest request) throws AlipayApiException {
         String responseBody = null;
         switch (request.getStatus()) {
-            case PAID:
+            case PENDING_PAYMENT:
                 responseBody = orderService.payOrder(orderId, request.getPaymentType());
                 break;
             case CANCELLED:
