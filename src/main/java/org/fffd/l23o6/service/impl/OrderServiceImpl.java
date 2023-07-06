@@ -121,11 +121,10 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity order = orderDao.findById(id).get();
         UserEntity user = userDao.findById(order.getUserId()).get();
 
-        if (order.getStatus() == OrderStatus.COMPLETED || order.getStatus() == OrderStatus.CANCELLED) {
+        if (order.getStatus() == OrderStatus.COMPLETED) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
         }
         
-        choosePayment(order.getPaymentType()).refund(order, user);
         order.setStatus(OrderStatus.CANCELLED);
         orderDao.save(order);
     }
@@ -140,13 +139,26 @@ public class OrderServiceImpl implements OrderService {
         }
         
         String responseBody = choosePayment(paymentType).pay(order, user);
-        order.setStatus(OrderStatus.COMPLETED);
-        
+        order.setStatus(OrderStatus.PAID);
         user.setCredits((int) Math.floor(user.getCredits() + order.getPrice()));
         
         orderDao.save(order);
         
         return responseBody;
+    }
+    
+    @Override
+    public void refundOrder(final Long id) throws AlipayApiException {
+        OrderEntity order = orderDao.findById(id).get();
+        UserEntity user = userDao.findById(order.getUserId()).get();
+        
+        if (order.getStatus() != OrderStatus.PAID) {
+            throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
+        }
+        
+        choosePayment(order.getPaymentType()).refund(order, user);
+        order.setStatus(OrderStatus.REFUNDED);
+        orderDao.save(order);
     }
     
     private PaymentStrategy choosePayment(PaymentType type) {
@@ -159,5 +171,4 @@ public class OrderServiceImpl implements OrderService {
         assert paymentFactory != null;
         return paymentFactory.createPayment();
     }
-
 }

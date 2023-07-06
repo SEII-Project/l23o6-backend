@@ -47,9 +47,9 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         request.setBizContent(bizContent.toString());
         AlipayTradePagePayResponse response = alipayClient.pageExecute(request, "get");
         if(response.isSuccess()){
-            System.out.println("调用成功");
+            System.out.println("支付调用成功");
         } else {
-            System.out.println("调用失败");
+            System.out.println("支付调用失败");
         }
         
         return response.getBody();
@@ -60,16 +60,16 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         AlipayClient alipayClient = new DefaultAlipayClient(getAlipayConfig());
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         JSONObject bizContent = new JSONObject();
-        bizContent.put("trade_no", order.getTradeId());
+        bizContent.put("out_trade_no", order.getTradeId());
         bizContent.put("refund_amount", order.getPrice());
         
         request.setBizContent(bizContent.toString());
         AlipayTradeRefundResponse response = alipayClient.execute(request);
         if(response.isSuccess()){
-            System.out.println("调用成功");
+            System.out.println("退款调用成功");
             order.setStatus(OrderStatus.REFUNDED);
         } else {
-            System.out.println("调用失败");
+            System.out.println("退款调用失败");
         }
     }
     
@@ -88,6 +88,8 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
     @Override
     public OrderStatus query(final OrderEntity order) throws AlipayApiException {
         if (order.getStatus().equals(OrderStatus.REFUNDED)) return OrderStatus.REFUNDED;
+        else if (order.getStatus().equals(OrderStatus.PENDING_PAYMENT)) return OrderStatus.PENDING_PAYMENT;
+        else if (order.getStatus().equals(OrderStatus.CANCELLED)) return OrderStatus.CANCELLED;
         
         AlipayClient alipayClient = new DefaultAlipayClient(getAlipayConfig());
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
@@ -98,8 +100,7 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         AlipayTradeQueryResponse response = alipayClient.execute(request);
         
         String tradeStatus = response.getTradeStatus();
-        if (tradeStatus == null) return OrderStatus.PENDING_PAYMENT;
-        else if (tradeStatus.equals("WAIT_BUYER_PAY")) return OrderStatus.PENDING_PAYMENT;
+        if (tradeStatus.equals("WAIT_BUYER_PAY")) return OrderStatus.PENDING_PAYMENT;
         else if (tradeStatus.equals("TRADE_SUCCESS")) return OrderStatus.PAID;
         else if (tradeStatus.equals("TRADE_FINISHED")) return OrderStatus.COMPLETED;
         else return OrderStatus.CANCELLED;

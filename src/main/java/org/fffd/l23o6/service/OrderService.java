@@ -12,4 +12,5 @@ public interface OrderService {
     OrderVO getOrder(Long id) throws AlipayApiException;
     void cancelOrder(Long id) throws AlipayApiException;
     String payOrder(Long id, PaymentType paymentType) throws AlipayApiException;
+    void refundOrder(Long id) throws AlipayApiException;
 }

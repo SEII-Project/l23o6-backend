@@ -49,6 +49,7 @@ public class OrderController {
         switch (request.getStatus()) {
             case PENDING_PAYMENT -> responseBody = orderService.payOrder(orderId, request.getPaymentType());
             case CANCELLED -> orderService.cancelOrder(orderId);
+            case REFUNDED -> orderService.refundOrder(orderId);
             default -> throw new BizException(CommonErrorType.ILLEGAL_ARGUMENTS, "Invalid order status.");
         }
         
