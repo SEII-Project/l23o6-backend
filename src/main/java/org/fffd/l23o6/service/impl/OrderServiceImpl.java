@@ -133,6 +133,7 @@ public class OrderServiceImpl implements OrderService {
     public String payOrder(Long id, PaymentType paymentType) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
         UserEntity user = userDao.findById(order.getUserId()).get();
+        order.setPaymentType(paymentType);
 
         if (order.getStatus() != OrderStatus.PENDING_PAYMENT) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);

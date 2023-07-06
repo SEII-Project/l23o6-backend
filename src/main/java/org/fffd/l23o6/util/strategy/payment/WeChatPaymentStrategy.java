@@ -18,7 +18,6 @@ public class WeChatPaymentStrategy extends PaymentStrategy{
     @Override
     public String pay(OrderEntity order, UserEntity user) {
         double deposit = user.getDeposit();
-        JSONObject jsonObject = new JSONObject();
         
         if (deposit >= order.getPrice()) {
             long timeStamp = System.currentTimeMillis();
