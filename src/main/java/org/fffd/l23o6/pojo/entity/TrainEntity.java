@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import org.fffd.l23o6.pojo.enum_.TrainStatus;
 import org.fffd.l23o6.pojo.enum_.TrainType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -15,6 +16,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import io.hypersistence.utils.hibernate.type.array.BooleanArrayType;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,11 +57,18 @@ public class TrainEntity {
     private List<Date> departureTimes;
 
     @NotNull
-    private List<String> extraInfos;
+    private List<TrainStatus> extraInfos;
 
     @CreationTimestamp
     private Date createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;
+    
+    public List<String> getExtraInfosText() {
+        List<String> extraInfoText = new ArrayList<>();
+        for (TrainStatus status: extraInfos)
+            extraInfoText.add(status.getText());
+        return extraInfoText;
+    }
 }

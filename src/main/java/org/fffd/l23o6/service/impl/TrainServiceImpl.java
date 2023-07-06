@@ -8,6 +8,7 @@ import org.fffd.l23o6.dao.TrainDao;
 import org.fffd.l23o6.mapper.TrainMapper;
 import org.fffd.l23o6.pojo.entity.RouteEntity;
 import org.fffd.l23o6.pojo.entity.TrainEntity;
+import org.fffd.l23o6.pojo.enum_.TrainStatus;
 import org.fffd.l23o6.pojo.enum_.TrainType;
 import org.fffd.l23o6.pojo.vo.train.AdminTrainVO;
 import org.fffd.l23o6.pojo.vo.train.TrainVO;
@@ -37,7 +38,7 @@ public class TrainServiceImpl implements TrainService {
         RouteEntity route = routeDao.findById(train.getRouteId()).get();
         return TrainDetailVO.builder().id(trainId).date(train.getDate()).name(train.getName())
                 .stationIds(route.getStationIds()).arrivalTimes(train.getArrivalTimes())
-                .departureTimes(train.getDepartureTimes()).extraInfos(train.getExtraInfos()).build();
+                .departureTimes(train.getDepartureTimes()).extraInfos(train.getExtraInfosText()).build();
     }
 
     @Override
@@ -110,7 +111,7 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public void addTrain(String name, Long routeId, TrainType type, String date, List<Date> arrivalTimes,
-            List<Date> departureTimes) {
+                         List<Date> departureTimes, List<TrainStatus> extraInfos) {
         TrainEntity entity = TrainEntity.builder().name(name).routeId(routeId).trainType(type)
                 .date(date).arrivalTimes(arrivalTimes).departureTimes(departureTimes).build();
         RouteEntity route = routeDao.findById(routeId).get();
@@ -118,7 +119,7 @@ public class TrainServiceImpl implements TrainService {
                 || route.getStationIds().size() != entity.getDepartureTimes().size()) {
             throw new BizException(CommonErrorType.ILLEGAL_ARGUMENTS, "列表长度错误");
         }
-        entity.setExtraInfos(new ArrayList<String>(Collections.nCopies(route.getStationIds().size(), "预计正点")));
+        entity.setExtraInfos(extraInfos);
         switch (entity.getTrainType()) {
             case HIGH_SPEED:
                 entity.setSeats(GSeriesSeatStrategy.INSTANCE.initSeatMap(route.getStationIds().size()));
@@ -132,9 +133,9 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public void changeTrain(Long id, String name, Long routeId, TrainType type, String date, List<Date> arrivalTimes,
-                            List<Date> departureTimes) {
+                            List<Date> departureTimes, List<TrainStatus> extraInfos) {
         TrainEntity entity = trainDao.findById(id).get();
-        entity.setName(name).setRouteId(routeId).setTrainType(type).setDate(date).setArrivalTimes(arrivalTimes).setDepartureTimes(departureTimes);
+        entity.setName(name).setRouteId(routeId).setTrainType(type).setDate(date).setArrivalTimes(arrivalTimes).setDepartureTimes(departureTimes).setExtraInfos(extraInfos);
         trainDao.save(entity);
     }
 

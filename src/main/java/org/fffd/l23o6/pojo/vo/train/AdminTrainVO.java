@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.fffd.l23o6.pojo.enum_.TrainStatus;
 
 @Data
 @AllArgsConstructor
@@ -16,5 +17,5 @@ public class AdminTrainVO {
     private String date;
     private List<Date> departureTimes;
     private List<Date> arrivalTimes;
-    private List<String> extraInfos;
+    private List<TrainStatus> extraInfos;
 }

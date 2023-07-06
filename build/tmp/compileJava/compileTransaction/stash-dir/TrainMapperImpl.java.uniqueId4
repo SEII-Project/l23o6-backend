@@ -12,7 +12,7 @@ import org.fffd.l23o6.pojo.vo.train.TrainVO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-06T19:47:34+0800",
+    date = "2023-07-06T19:44:53+0800",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 public class TrainMapperImpl implements TrainMapper {
@@ -30,7 +30,7 @@ public class TrainMapperImpl implements TrainMapper {
         String date = null;
         List<Date> departureTimes = null;
         List<Date> arrivalTimes = null;
-        List<TrainStatus> extraInfos = null;
+        List<String> extraInfos = null;
 
         trainType = trainEntityTrainTypeText( TrainEntity );
         id = TrainEntity.getId();
@@ -45,10 +45,7 @@ public class TrainMapperImpl implements TrainMapper {
         if ( list1 != null ) {
             arrivalTimes = new ArrayList<Date>( list1 );
         }
-        List<TrainStatus> list2 = TrainEntity.getExtraInfos();
-        if ( list2 != null ) {
-            extraInfos = new ArrayList<TrainStatus>( list2 );
-        }
+        extraInfos = trainStatusListToStringList( TrainEntity.getExtraInfos() );
 
         AdminTrainVO adminTrainVO = new AdminTrainVO( id, name, trainType, routeId, date, departureTimes, arrivalTimes, extraInfos );
 
@@ -85,5 +82,18 @@ public class TrainMapperImpl implements TrainMapper {
             return null;
         }
         return text;
+    }
+
+    protected List<String> trainStatusListToStringList(List<TrainStatus> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<String> list1 = new ArrayList<String>( list.size() );
+        for ( TrainStatus trainStatus : list ) {
+            list1.add( trainStatus.name() );
+        }
+
+        return list1;
     }
 }

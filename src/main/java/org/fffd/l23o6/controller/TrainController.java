@@ -42,7 +42,7 @@ public class TrainController {
 
     @PostMapping("admin/train")
     public CommonResponse<?> addTrain(@Valid @RequestBody AddTrainRequest request){
-        trainService.addTrain(request.getName(), request.getRouteId(), request.getTrainType(), request.getDate(), request.getArrivalTimes(), request.getDepartureTimes());
+        trainService.addTrain(request.getName(), request.getRouteId(), request.getTrainType(), request.getDate(), request.getArrivalTimes(), request.getDepartureTimes(), request.getExtraInfos());
         return CommonResponse.success();
     }
 
@@ -59,7 +59,7 @@ public class TrainController {
     @PutMapping("admin/train/{trainId}")
     public CommonResponse<?> changeTrain(@PathVariable Long trainId, @Valid @RequestBody AddTrainRequest request) {
         trainService.changeTrain(trainId, request.getName(), request.getRouteId(), request.getTrainType(),
-                request.getDate(), request.getArrivalTimes(), request.getDepartureTimes());
+                request.getDate(), request.getArrivalTimes(), request.getDepartureTimes(), request.getExtraInfos());
         return CommonResponse.success();
     }
     

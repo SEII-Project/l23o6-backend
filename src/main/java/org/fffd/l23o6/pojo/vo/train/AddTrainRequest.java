@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.fffd.l23o6.pojo.enum_.TrainType;
+import org.fffd.l23o6.pojo.enum_.TrainStatus;
 
 @Data
 @Schema(description = "添加车次请求")
@@ -40,5 +41,8 @@ public class AddTrainRequest {
     @Schema(description = "开点", required = true)
     @NotNull
     private List<Date> departureTimes;
-
+    
+    @Schema(description = "到达预计", required = true)
+    @NotNull
+    private List<TrainStatus> extraInfos;
 }
