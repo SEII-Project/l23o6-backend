@@ -91,8 +91,8 @@ public class TrainServiceImpl implements TrainService {
                     }
                 }
                 trainVO.setTicketInfo(ticketInfos);
-                trainVO.setStartStationId(routeDao.findById(trainEntity.getRouteId()).get().getStationIds().get(0));
-                trainVO.setEndStationId(routeDao.findById(trainEntity.getRouteId()).get().getStationIds().get(routeDao.findById(trainEntity.getRouteId()).get().getStationIds().size()-1));
+                trainVO.setStartStationId(routeDao.findById(trainEntity.getRouteId()).get().getStationIds().get(startIndex));
+                trainVO.setEndStationId(routeDao.findById(trainEntity.getRouteId()).get().getStationIds().get(endIndex));
                 trainVO.setDepartureTime(trainEntity.getDepartureTimes().get(startIndex));
                 trainVO.setArrivalTime(trainEntity.getArrivalTimes().get(endIndex));
                 trainVOs.add(trainVO);

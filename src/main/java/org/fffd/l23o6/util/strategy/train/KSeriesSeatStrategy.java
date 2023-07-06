@@ -89,12 +89,16 @@ public class KSeriesSeatStrategy extends TrainSeatStrategy {
             case NO_SEAT -> SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size();
             default -> 0;
         };
-
-        for (int i = startStationIndex; i < startStationIndex + TYPE_MAP.get(type).size(); i ++) {
-            for (int j = startIndex; j < startIndex + TYPE_MAP.get(type).size(); j ++) {
-                if (!seatMap[i][j]) {
-                    seatMap[i][j] = true;
-                    return TYPE_MAP.get(type).get(j - startIndex);
+        
+        for (int i = startIndex; i < startIndex + TYPE_MAP.get(type).size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1) {
+                    for (int k = startStationIndex; k < endStationIndex; k++) {
+                        seatMap[k][i] = true;
+                    }
+                    return TYPE_MAP.get(type).get(i);
                 }
             }
         }
@@ -108,32 +112,49 @@ public class KSeriesSeatStrategy extends TrainSeatStrategy {
         int softSeatCount = 0;
         int hardSeatCount = 0;
         int noSeatCount = 0;
-
-        for (int i = startStationIndex; i < endStationIndex; i ++) {
-            for (int j = 0; j < SOFT_SLEEPER_SEAT_MAP.size(); j ++) {
-                if (!seatMap[i][j]) {
-                    softSleeperSeatCount ++;
-                }
+        
+        for (int i = 0; i < SOFT_SLEEPER_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
+                    softSleeperSeatCount++;
             }
-            for (int j = SOFT_SLEEPER_SEAT_MAP.size(); j < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size(); j ++) {
-                if (!seatMap[i][j]) {
-                    hardSleeperSeatCount ++;
-                }
+        }
+        
+        for (int i = SOFT_SLEEPER_SEAT_MAP.size(); i < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
+                    hardSleeperSeatCount++;
             }
-            for (int j = SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size(); j < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size(); j ++) {
-                if (!seatMap[i][j]) {
-                    softSeatCount ++;
-                }
+        }
+        
+        for (int i = SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size(); i < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
+                    softSeatCount++;
             }
-            for (int j = SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size(); j < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size(); j ++) {
-                if (!seatMap[i][j]) {
-                    hardSeatCount ++;
-                }
+        }
+        
+        for (int i = SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size(); i < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
+                    hardSeatCount++;
             }
-            for (int j = SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size(); j < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size() + NO_SEAT_MAP.size(); j ++) {
-                if (!seatMap[i][j]) {
-                    noSeatCount ++;
-                }
+        }
+        
+        for (int i = SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size(); i < SOFT_SLEEPER_SEAT_MAP.size() + HARD_SLEEPER_SEAT_MAP.size() + SOFT_SEAT_MAP.size() + HARD_SEAT_MAP.size() + NO_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
+                    noSeatCount++;
             }
         }
 

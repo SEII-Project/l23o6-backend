@@ -86,8 +86,12 @@ public class GSeriesSeatStrategy extends TrainSeatStrategy {
 
         for (int i = startIndex; i < startIndex + TYPE_MAP.get(type).size(); i++) {
             for (int j = startStationIndex; j < endStationIndex; j++) {
-                if (!seatMap[j][i]) {
-                    seatMap[j][i] = true;
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1) {
+                    for (int k = startStationIndex; k < endStationIndex; k++) {
+                        seatMap[k][i] = true;
+                    }
                     return TYPE_MAP.get(type).get(i);
                 }
             }
@@ -102,31 +106,42 @@ public class GSeriesSeatStrategy extends TrainSeatStrategy {
         int secondClassSeatCount = 0;
         int noSeatCount = 0;
 
-        for (int i = startStationIndex; i < endStationIndex; i++) {
-            for (int j = 0; j < BUSINESS_SEAT_MAP.size(); j++) {
-                if (!seatMap[i][j]) {
+        for (int i = 0; i < BUSINESS_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
                     businessSeatCount++;
-                }
-            }
-
-            for (int j = BUSINESS_SEAT_MAP.size(); j < BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size(); j++) {
-                if (!seatMap[i][j]) {
-                    firstClassSeatCount++;
-                }
-            }
-
-            for (int j = BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size(); j < BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size() + SECOND_CLASS_SEAT_MAP.size(); j++) {
-                if (!seatMap[i][j]) {
-                    secondClassSeatCount++;
-                }
-            }
-            
-            for (int j = BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size() + SECOND_CLASS_SEAT_MAP.size(); j < BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size() + SECOND_CLASS_SEAT_MAP.size() + NO_SEAT_MAP.size(); j++) {
-                if (!seatMap[i][j]) {
-                    noSeatCount++;
-                }
             }
         }
+        
+        for (int i = BUSINESS_SEAT_MAP.size(); i < BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
+                    firstClassSeatCount++;
+            }
+        }
+        
+        for (int i = BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size(); i < BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size() + SECOND_CLASS_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
+                    secondClassSeatCount++;
+            }
+        }
+        
+        for (int i = BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size() + SECOND_CLASS_SEAT_MAP.size(); i < BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size() + SECOND_CLASS_SEAT_MAP.size() + NO_SEAT_MAP.size(); i++) {
+            for (int j = startStationIndex; j < endStationIndex; j++) {
+                if (seatMap[j][i])
+                    break;
+                if (j == endStationIndex - 1)
+                    noSeatCount++;
+            }
+        }
+        
         return Map.of(GSeriesSeatType.BUSINESS_SEAT, businessSeatCount, GSeriesSeatType.FIRST_CLASS_SEAT, firstClassSeatCount, GSeriesSeatType.SECOND_CLASS_SEAT, secondClassSeatCount, GSeriesSeatType.NO_SEAT, noSeatCount);
     }
 
