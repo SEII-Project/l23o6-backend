@@ -143,6 +143,7 @@ public class OrderServiceImpl implements OrderService {
         user.setCredits((int) Math.floor(user.getCredits() + order.getPrice()));
         
         orderDao.save(order);
+        userDao.save(user);
         
         return responseBody;
     }
@@ -159,6 +160,7 @@ public class OrderServiceImpl implements OrderService {
         choosePayment(order.getPaymentType()).refund(order, user);
         order.setStatus(OrderStatus.REFUNDED);
         orderDao.save(order);
+        userDao.save(user);
     }
     
     private PaymentStrategy choosePayment(PaymentType type) {

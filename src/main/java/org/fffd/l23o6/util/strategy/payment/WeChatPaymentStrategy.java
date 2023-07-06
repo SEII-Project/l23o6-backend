@@ -2,9 +2,11 @@ package org.fffd.l23o6.util.strategy.payment;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
+import io.github.lyc8503.spring.starter.incantation.exception.BizException;
 import io.hypersistence.utils.spring.repository.BaseJpaRepository;
 import jakarta.validation.constraints.NotNull;
 import org.fffd.l23o6.dao.UserDao;
+import org.fffd.l23o6.exception.BizError;
 import org.fffd.l23o6.pojo.entity.OrderEntity;
 import org.fffd.l23o6.pojo.entity.UserEntity;
 import org.fffd.l23o6.pojo.enum_.OrderStatus;
@@ -28,7 +30,7 @@ public class WeChatPaymentStrategy extends PaymentStrategy{
             user.setDeposit(deposit - order.getPrice());
             order.setStatus(OrderStatus.PAID);
         } else {
-        
+            throw new BizException(BizError.DEPOSIT_NOT_ENOUGH);
         }
         
         return null;
