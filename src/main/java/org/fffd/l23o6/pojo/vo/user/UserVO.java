@@ -11,5 +11,6 @@ public class UserVO {
     private String idn;
     private String type;
     private int credits;
+    private double deposit;
     private UserType userType;
 }

@@ -41,6 +41,7 @@ public class UserEntity {
     private UserType userType;
     
     private int credits;
+    private double deposit;
 
     @CreationTimestamp
     private Date createdAt;
