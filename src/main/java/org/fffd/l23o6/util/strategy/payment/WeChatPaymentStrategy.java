@@ -1,22 +1,48 @@
 package org.fffd.l23o6.util.strategy.payment;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
+import io.hypersistence.utils.spring.repository.BaseJpaRepository;
+import jakarta.validation.constraints.NotNull;
+import org.fffd.l23o6.dao.UserDao;
 import org.fffd.l23o6.pojo.entity.OrderEntity;
+import org.fffd.l23o6.pojo.entity.UserEntity;
 import org.fffd.l23o6.pojo.enum_.OrderStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.nio.ByteBuffer;
+import java.util.UUID;
 
 public class WeChatPaymentStrategy extends PaymentStrategy{
     @Override
-    public String pay(OrderEntity order) {
+    public String pay(OrderEntity order, UserEntity user) {
+        double deposit = user.getDeposit();
+        JSONObject jsonObject = new JSONObject();
+        
+        if (deposit >= order.getPrice()) {
+            long timeStamp = System.currentTimeMillis();
+            byte[] timeStampBytes = ByteBuffer.allocate(Long.BYTES).putLong(timeStamp).array();
+            UUID uuid = UUID.nameUUIDFromBytes(timeStampBytes);
+            order.setTradeId(uuid.toString());
+            
+            user.setDeposit(deposit - order.getPrice());
+            order.setStatus(OrderStatus.PAID);
+        } else {
+        
+        }
+        
         return null;
     }
     
     @Override
-    public void refund(OrderEntity order) {
-    
+    public void refund(OrderEntity order, UserEntity user) {
+        user.setDeposit(user.getDeposit() + order.getPrice());
+        order.setStatus(OrderStatus.REFUNDED);
     }
     
     @Override
     public OrderStatus query(final OrderEntity order) throws AlipayApiException {
-        return null;
+        return order.getStatus();
     }
 }

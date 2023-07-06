@@ -51,7 +51,7 @@ public class OrderController {
             case CANCELLED -> orderService.cancelOrder(orderId);
             default -> throw new BizException(CommonErrorType.ILLEGAL_ARGUMENTS, "Invalid order status.");
         }
-
+        
         return CommonResponse.success(responseBody);
     }
 }

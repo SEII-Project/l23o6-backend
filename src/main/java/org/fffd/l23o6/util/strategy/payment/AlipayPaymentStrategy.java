@@ -12,6 +12,7 @@ import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import org.fffd.l23o6.pojo.entity.OrderEntity;
+import org.fffd.l23o6.pojo.entity.UserEntity;
 import org.fffd.l23o6.pojo.enum_.OrderStatus;
 
 import java.nio.ByteBuffer;
@@ -21,7 +22,7 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
     AlipayConfig alipayConfig = new AlipayConfig();
     
     @Override
-    public String pay(final OrderEntity order) throws AlipayApiException {
+    public String pay(final OrderEntity order, UserEntity user) throws AlipayApiException {
         AlipayClient alipayClient = new DefaultAlipayClient(getAlipayConfig());
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
         //异步接收地址，仅支持http/https，公网可访问
@@ -55,7 +56,7 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
     }
     
     @Override
-    public void refund(OrderEntity order) throws AlipayApiException {
+    public void refund(OrderEntity order, UserEntity user) throws AlipayApiException {
         AlipayClient alipayClient = new DefaultAlipayClient(getAlipayConfig());
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         JSONObject bizContent = new JSONObject();
@@ -66,6 +67,7 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         AlipayTradeRefundResponse response = alipayClient.execute(request);
         if(response.isSuccess()){
             System.out.println("调用成功");
+            order.setStatus(OrderStatus.REFUNDED);
         } else {
             System.out.println("调用失败");
         }
@@ -85,6 +87,8 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
     
     @Override
     public OrderStatus query(final OrderEntity order) throws AlipayApiException {
+        if (order.getStatus().equals(OrderStatus.REFUNDED)) return OrderStatus.REFUNDED;
+        
         AlipayClient alipayClient = new DefaultAlipayClient(getAlipayConfig());
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         JSONObject bizContent = new JSONObject();

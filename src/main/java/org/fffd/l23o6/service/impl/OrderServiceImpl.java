@@ -119,27 +119,28 @@ public class OrderServiceImpl implements OrderService {
 
     public void cancelOrder(Long id) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
+        UserEntity user = userDao.findById(order.getUserId()).get();
 
         if (order.getStatus() == OrderStatus.COMPLETED || order.getStatus() == OrderStatus.CANCELLED) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
         }
         
-        choosePayment(order.getPaymentType()).refund(order);
+        choosePayment(order.getPaymentType()).refund(order, user);
         order.setStatus(OrderStatus.CANCELLED);
         orderDao.save(order);
     }
 
     public String payOrder(Long id, PaymentType paymentType) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
+        UserEntity user = userDao.findById(order.getUserId()).get();
 
         if (order.getStatus() != OrderStatus.PENDING_PAYMENT) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
         }
         
-        String responseBody = choosePayment(paymentType).pay(order);
+        String responseBody = choosePayment(paymentType).pay(order, user);
         order.setStatus(OrderStatus.COMPLETED);
         
-        UserEntity user = userDao.findById(order.getUserId()).get();
         user.setCredits((int) Math.floor(user.getCredits() + order.getPrice()));
         
         orderDao.save(order);
