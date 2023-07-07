@@ -72,7 +72,7 @@ jobs:
             npm install -g apifox-cli
             apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368476/detail?token=xeD39JL-9UmYA2kDX-8omd -r html,cli &
             sleep 1s
-            wait-for apifox
+            wait-for apifox run
             APIFOX_EXIT_CODE=$?
             if [ $APIFOX_EXIT_CODE -eq 0 ]; then
               exit 0
