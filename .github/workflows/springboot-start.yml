@@ -68,7 +68,6 @@ jobs:
               kill $PID
             fi
             cd /home/
-            java -jar l23o6-0.0.1-SNAPSHOT.jar --server.port=8080
-            sleep 15s
+            java -jar l23o6-0.0.1-SNAPSHOT.jar --server.port=8080 &
             npm install -g apifox-cli
             apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368475/detail?token=xgJg2kIMA1GXhaTnzM63zW -r html,cli
