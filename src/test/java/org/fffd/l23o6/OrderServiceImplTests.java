@@ -24,8 +24,4 @@ public class OrderServiceImplTests {
         userService.register("test", "Abcd1234", "测试", "111111111", "13333333333", "管理员");
         assert userDao.findByUsername("test").getName().equals("测试");
     }
-    @Test
-    void False() {
-        assert false;
-    }
 }
