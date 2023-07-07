@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.fffd.l23o6.pojo.enum_.UserType;
 
 @Data
 @Schema(description = "注册请求")
@@ -55,4 +56,5 @@ public class RegisterRequest {
             @Pattern(regexp = "^身份证|护照|其他$", message = "证件类型错误"),
     })
     private String type;
+    private UserType userType;
 }
