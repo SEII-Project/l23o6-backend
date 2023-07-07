@@ -2,7 +2,7 @@ name: train-IT
 
 on:
   push:
-    branches: [ "master", "GitActions" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
