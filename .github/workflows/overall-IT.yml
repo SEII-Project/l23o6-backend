@@ -26,4 +26,6 @@ jobs:
         run: npm install -g apifox-cli
       
       - name: Running Test Scenario
-        run: apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368474/detail?token=xShF0pm-tJ3v1dyvmh8oI5 -r html,cli
+        run: |
+          sleep 30s
+          apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368475/detail?token=xgJg2kIMA1GXhaTnzM63zW -r html,cli
