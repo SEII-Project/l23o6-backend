@@ -74,4 +74,6 @@ jobs:
       
       - name: end-job
         if: always()
-        run: exit ${{ job.status }}
+        run: |
+          wait-for apifox
+          exit ${{ job.status }}
