@@ -34,6 +34,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+        with:
+          arguments: clean build --exclude-task test
+      
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
@@ -43,7 +58,4 @@ jobs:
         run: npm install -g apifox-cli
       
       - name: Running Test Scenario
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
         run: apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368463/detail?token=x_2Iuvf_-fj9KdnfBlTJ0S -r html,cli
