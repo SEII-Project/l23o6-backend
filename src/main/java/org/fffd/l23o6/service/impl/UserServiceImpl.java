@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
     @Override
-    public void register(String username, String password, String name, String idn, String phone, String type) {
+    public void register(String username, String password, String name, String idn, String phone, String type, UserType userType) {
         UserEntity user = userDao.findByUsername(username);
 
         if (user != null) {
