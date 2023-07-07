@@ -37,7 +37,6 @@ public class OrderServiceImpl implements OrderService {
     private final TrainDao trainDao;
     private final RouteDao routeDao;
     private final CreditsDiscountStrategy creditsDiscountStrategy = new CreditsDiscountStrategy();
-
     public Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType,
             Long seatNumber, double price) {
         Long userId = userDao.findByUsername(username).getId();
