@@ -70,13 +70,5 @@ jobs:
             cd /home/
             java -jar l23o6-0.0.1-SNAPSHOT.jar --server.port=8080 &
             npm install -g apifox-cli
-            apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368476/detail?token=xeD39JL-9UmYA2kDX-8omd -r html,cli &
-            while ! nc -z localhost 3000; do sleep 1; done
-            APIFOX_EXIT_CODE=$?
-            if [ $APIFOX_EXIT_CODE -eq 0 ]; then
-              echo "apifox run completed successfully"
-              exit 0
-            else
-              echo "apifox run failed with exit code $APIFOX_EXIT_CODE"
-              exit $APIFOX_EXIT_CODE
-            fi
+            timeout 3m apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368476/detail?token=xeD39JL-9UmYA2kDX-8omd -r html,cli &
+          
