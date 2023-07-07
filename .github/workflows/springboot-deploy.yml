@@ -10,9 +10,9 @@ name: SpringBoot Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master", "GitActions" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
