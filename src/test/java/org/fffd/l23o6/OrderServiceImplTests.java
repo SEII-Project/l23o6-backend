@@ -2,6 +2,7 @@ package org.fffd.l23o6;
 
 import org.fffd.l23o6.dao.*;
 import org.fffd.l23o6.pojo.entity.OrderEntity;
+import org.fffd.l23o6.pojo.entity.TrainEntity;
 import org.fffd.l23o6.pojo.enum_.OrderStatus;
 import org.fffd.l23o6.pojo.enum_.PaymentType;
 import org.fffd.l23o6.pojo.enum_.TrainStatus;
@@ -33,15 +34,23 @@ public class OrderServiceImplTests {
     RouteDao routeDao;
     @Autowired
     RouteServiceImpl routeService;
+    @Autowired
+    StationServiceImpl stationService;
+    @Autowired
+    StationDao stationDao;
 
     @Test
     void createOrderTest1() {
-        userDao.delete(userService.findByUserName("xsswsx"));
+        if (userService.findByUserName("xsswsx") != null) userDao.delete(userService.findByUserName("xsswsx"));
         userService.register("xsswsx","123456Aa","宋毅恒","32050120020925527X","15050196910","用户");
         assert userDao.findByUsername("xsswsx").getName().equals("宋毅恒");
+        
+        if (stationService.getStation(1L) == null) stationService.addStation("1");
+        if (stationService.getStation(2L) == null) stationService.addStation("2");
+        if (stationService.getStation(3L) == null) stationService.addStation("3");
 
-        routeService.addRoute("京南线",new ArrayList<>(Arrays.asList(1L,2L,3L)));
-        Long routeID = -1L;
+        if (routeService.getRoute(routeDao.findByName("京南线").getId()) == null) routeService.addRoute("京南线", new ArrayList<>(Arrays.asList(1L, 2L, 3L)));
+        long routeID = -1L;
         for (int i = 0 ; i < routeService.listRoutes().size(); i++){
             if (routeService.listRoutes().get(i).getName().equals("京南线")){
                 routeID = routeService.listRoutes().get(i).getId();
@@ -61,15 +70,16 @@ public class OrderServiceImplTests {
                         new Date(2023,Calendar.JULY,8,22,0))),
                 new ArrayList<>(Arrays.asList(TrainStatus.ON_TIME,TrainStatus.ON_TIME,TrainStatus.DELAY))
         );
+        
         Long trainID = -1L;
-        for (int i = 0 ; i < trainService.listTrains(1L,3L,"2023-7-8").size() ; i++){
-            if (trainService.listTrains(1L,3L,"2023-7-8").get(i).getName().equals("京南线")){
-                trainID = trainService.listTrains(1L,3L,"2023-7-8").get(i).getId();
+        for (TrainEntity train: trainDao.findAll()) {
+            if (routeService.getRoute(train.getRouteId()).getName().equals("京南线")) {
+                trainID = train.getId();
                 break;
             }
         }
         OrderServiceImpl impl = new OrderServiceImpl(orderDao,userDao,trainDao,routeDao);
-        Long orderID = impl.createOrder("xsswsx",trainID,1L,3L,"一等座",1L,50);
+        Long orderID = impl.createOrder("xsswsx", trainID,1L,3L,"一等座",1L,50);
         assert orderID != null;
     }
 
