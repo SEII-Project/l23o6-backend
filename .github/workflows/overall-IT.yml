@@ -54,6 +54,9 @@ jobs:
           port: ${{ secrets.PORT }} # 服务器ssh端口（默认22）
       - name: deploy_app_jar #开始部署
         uses: appleboy/ssh-action@master
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
         with:
           host: ${{ secrets.HOST }} #服务器ip地址
           username: ${{ secrets.USERNAME }} #服务器ssh用户名
