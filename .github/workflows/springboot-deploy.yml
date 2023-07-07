@@ -48,4 +48,4 @@ jobs: #具体的任务
           port: ${{ secrets.PORT }} # 服务器ssh端口（默认22）
           script: |
             cd /home/
-            java -jar app.jar --server.port=8080
+            java -jar l23o6-0.0.1-SNAPSHOT.jar --server.port=8080
