@@ -1,4 +1,4 @@
-name: Springboot-start
+name: station-IT
 
 on:
   push:
@@ -70,5 +70,5 @@ jobs:
             cd /home/
             java -jar l23o6-0.0.1-SNAPSHOT.jar --server.port=8080 &
             npm install -g apifox-cli
-            timeout 30s apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368476/detail?token=xeD39JL-9UmYA2kDX-8omd -r html,cli &
+            timeout 30s apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368479/detail?token=xftMGp8lHxLLCOFfHeI6kU -r html,cli
           
