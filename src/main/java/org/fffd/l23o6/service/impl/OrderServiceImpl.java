@@ -114,6 +114,7 @@ public class OrderServiceImpl implements OrderService {
                 .arrivalTime(train.getArrivalTimes().get(endIndex))
                 .price(order.getPrice())
                 .discount(order.getDiscount())
+                .status(order.getStatus().getText())
                 .build();
     }
     

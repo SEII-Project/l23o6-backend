@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
     @Override
-    public void register(String username, String password, String name, String idn, String phone, String type) {
+    public void register(String username, String password, String name, String idn, String phone, String type, UserType userType) {
         UserEntity user = userDao.findByUsername(username);
 
         if (user != null) {
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userDao.save(UserEntity.builder().username(username).password(BCrypt.hashpw(password))
-                .name(name).idn(idn).credits(0).phone(phone).type(type).userType(UserType.USER).build());
+                .name(name).idn(idn).credits(0).phone(phone).type(type).userType(UserType.USER).deposit(100000).build());
     }
 
     @Override
