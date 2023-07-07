@@ -22,46 +22,53 @@ public class OrderServiceImplTests {
     @Autowired
     UserDao userDao;
     @Autowired
+    UserServiceImpl userService;
+    @Autowired
     TrainDao trainDao;
     @Autowired
+    TrainServiceImpl trainService;
+    @Autowired
     RouteDao routeDao;
+    @Autowired
+    RouteServiceImpl routeService;
+
     @Test
     void createOrderTest1() {
-        UserEntity userEntity = new UserEntity();
-        TrainEntity trainEntity = new TrainEntity();
-        RouteEntity routeEntity = new RouteEntity();
-        if (userDao.findByUsername("xsswsx") == null){
-            userEntity.setUsername("xsswsx");
-            userEntity.setPassword("123456Aa");
-            userDao.save(userEntity);
+        userDao.delete(userService.findByUserName("xsswsx"));
+        userService.register("xsswsx","123456Aa","宋毅恒","32050120020925527X","15050196910","用户");
+        assert userDao.findByUsername("xsswsx").getName().equals("宋毅恒");
+
+        routeService.addRoute("京南线",new ArrayList<>(Arrays.asList(1L,2L,3L)));
+        Long routeID = -1L;
+        for (int i = 0 ; i < routeService.listRoutes().size(); i++){
+            if (routeService.listRoutes().get(i).getName().equals("京广线")){
+                routeID = routeService.listRoutes().get(i).getId();
+                break;
+            }
         }
-        if (!routeDao.existsById(1L)){
-            routeEntity.setId(1L);
-            routeEntity.setName("京广线");
-            routeEntity.setStationIds(new ArrayList<>(Arrays.asList(1L,2L,3L)));
-            routeEntity.setId(1L);
-            routeDao.save(routeEntity);
+        assert routeID != -1L;
+        assert routeDao.existsById(routeID);
+        trainService.addTrain("G0003",routeID,TrainType.HIGH_SPEED,"2023-7-8",
+                new ArrayList<>(Arrays.asList(
+                        new Date(2023,Calendar.JULY,8,20,0),
+                        new Date(2023,Calendar.JULY,8,21,0),
+                        new Date(2023,Calendar.JULY,8,22,0))),
+                new ArrayList<>(Arrays.asList(
+                        new Date(2023,Calendar.JULY,7,20,0),
+                        new Date(2023,Calendar.JULY,8,21,10),
+                        new Date(2023,Calendar.JULY,8,22,0))),
+                new ArrayList<>(Arrays.asList(TrainStatus.ON_TIME,TrainStatus.ON_TIME,TrainStatus.DELAY))
+        );
+        Long trainID = -1L;
+        for (int i = 0 ; i < trainService.listTrains(1L,3L,"2023-7-8").size() ; i++){
+            if (trainService.listTrains(1L,3L,"2023-7-8").get(i).getName().equals("京南线")){
+                trainID = trainService.listTrains(1L,3L,"2023-7-8").get(i).getId();
+                break;
+            }
         }
-        if (!trainDao.existsById(1L)){
-            trainEntity.setId(1L);
-            trainEntity.setName("G0001");
-            trainEntity.setRouteId(routeEntity.getId());
-            boolean[][] seat_stub = {{true,true,true,true},{true,true,true,true},{true,true,true,true}};
-            trainEntity.setSeats(seat_stub);
-            trainEntity.setTrainType(TrainType.HIGH_SPEED);
-            trainEntity.setDate("2023-7-7");
-            trainEntity.setArrivalTimes(new ArrayList<>(Arrays.asList(
-                    new Date(2023,Calendar.JULY,8,20,0),
-                    new Date(2023,Calendar.JULY,8,21,0),
-                    new Date(2023,Calendar.JULY,8,22,0))));
-            trainEntity.setDepartureTimes(new ArrayList<>(Arrays.asList(
-                    new Date(2023,Calendar.JULY,7,20,0),
-                    new Date(2023,Calendar.JULY,8,21,10),
-                    new Date(2023,Calendar.JULY,8,22,0))));
-            trainEntity.setExtraInfos(new ArrayList<>(Arrays.asList(TrainStatus.ON_TIME,TrainStatus.ON_TIME,TrainStatus.DELAY)));
-            trainDao.save(trainEntity);
-        }
+        assert trainID != -1L;
+        assert trainDao.existsById(trainID);
         OrderServiceImpl impl = new OrderServiceImpl(orderDao,userDao,trainDao,routeDao);
-        impl.createOrder("xsswsx",1L,1L,3L,"一等座",13L,50);
+        impl.createOrder("xsswsx",1L,1L,3L,"一等座",1L,50);
     }
 }
