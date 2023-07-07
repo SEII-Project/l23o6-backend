@@ -45,11 +45,11 @@ public class OrderServiceImplTests {
         userService.register("xsswsx","123456Aa","宋毅恒","32050120020925527X","15050196910","用户");
         assert userDao.findByUsername("xsswsx").getName().equals("宋毅恒");
         
-        if (stationService.getStation(1L) == null) stationService.addStation("1");
-        if (stationService.getStation(2L) == null) stationService.addStation("2");
-        if (stationService.getStation(3L) == null) stationService.addStation("3");
+        if (null == stationDao.findByName("1")) stationService.addStation("1");
+        if (null == stationDao.findByName("2")) stationService.addStation("2");
+        if (null == stationDao.findByName("3")) stationService.addStation("3");
 
-        if (routeService.getRoute(routeDao.findByName("京南线").getId()) == null) routeService.addRoute("京南线", new ArrayList<>(Arrays.asList(1L, 2L, 3L)));
+        if (routeService.getRoute(routeDao.findByName("京南线").getId()) == null) routeService.addRoute("京南线", new ArrayList<>(Arrays.asList(stationDao.findByName("1").getId(), stationDao.findByName("2").getId(), stationDao.findByName("3").getId())));
         long routeID = -1L;
         for (int i = 0 ; i < routeService.listRoutes().size(); i++){
             if (routeService.listRoutes().get(i).getName().equals("京南线")){
@@ -79,17 +79,21 @@ public class OrderServiceImplTests {
             }
         }
         OrderServiceImpl impl = new OrderServiceImpl(orderDao,userDao,trainDao,routeDao);
-        Long orderID = impl.createOrder("xsswsx", trainID,1L,3L,"一等座",1L,50);
+        Long orderID = impl.createOrder("xsswsx", trainID,stationDao.findByName("1").getId(),stationDao.findByName("3").getId(),"一等座",1L,50);
         assert orderID != null;
     }
 
     @Test
     void createOrderTest2() {
-        userDao.delete(userService.findByUserName("xsswsx"));
+        if (userService.findByUserName("xsswsx") != null) userDao.delete(userService.findByUserName("xsswsx"));
         userService.register("xsswsx","123456Aa","宋毅恒","32050120020925527X","15050196910","用户");
         assert userDao.findByUsername("xsswsx").getName().equals("宋毅恒");
-
-        routeService.addRoute("京广线",new ArrayList<>(Arrays.asList(1L,6L,9L)));
+        
+        if (null == stationDao.findByName("1")) stationService.addStation("1");
+        if (null == stationDao.findByName("6")) stationService.addStation("6");
+        if (null == stationDao.findByName("9")) stationService.addStation("9");
+        
+        if (routeService.getRoute(routeDao.findByName("京广线").getId()) == null) routeService.addRoute("京广线",new ArrayList<>(Arrays.asList(stationDao.findByName("1").getId(), stationDao.findByName("6").getId(),stationDao.findByName("9").getId())));
         Long routeID = -1L;
         for (int i = 0 ; i < routeService.listRoutes().size(); i++){
             if (routeService.listRoutes().get(i).getName().equals("京广线")){
@@ -111,14 +115,14 @@ public class OrderServiceImplTests {
                 new ArrayList<>(Arrays.asList(TrainStatus.ON_TIME,TrainStatus.ON_TIME,TrainStatus.DELAY))
         );
         Long trainID = -1L;
-        for (int i = 0 ; i < trainService.listTrains(1L,9L,"2023-7-8").size() ; i++){
-            if (trainService.listTrains(1L,9L,"2023-7-8").get(i).getName().equals("京广线")){
-                trainID = trainService.listTrains(1L,9L,"2023-7-8").get(i).getId();
+        for (TrainEntity train: trainDao.findAll()) {
+            if (routeService.getRoute(train.getRouteId()).getName().equals("京广线")) {
+                trainID = train.getId();
                 break;
             }
         }
         OrderServiceImpl impl = new OrderServiceImpl(orderDao,userDao,trainDao,routeDao);
-        Long orderID = impl.createOrder("xsswsx",trainID,1L,9L,"无座",3L,10);
+        Long orderID = impl.createOrder("xsswsx",trainID,1L, 9L,"无座",3L,10);
         assert orderID != null;
     }
 
