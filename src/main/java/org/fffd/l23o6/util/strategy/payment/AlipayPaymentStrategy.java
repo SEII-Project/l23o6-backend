@@ -48,6 +48,7 @@ public class AlipayPaymentStrategy extends PaymentStrategy {
         AlipayTradePagePayResponse response = alipayClient.pageExecute(request, "get");
         if(response.isSuccess()){
             System.out.println("支付调用成功");
+            order.setStatus(OrderStatus.PAID);
         } else {
             System.out.println("支付调用失败");
         }

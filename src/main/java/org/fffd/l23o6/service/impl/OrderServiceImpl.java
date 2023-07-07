@@ -1,5 +1,6 @@
 package org.fffd.l23o6.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserDao userDao;
     private final TrainDao trainDao;
     private final RouteDao routeDao;
+    private final long ONE_DAY = 24 * 60 * 60 * 1000;
     private final CreditsDiscountStrategy creditsDiscountStrategy = new CreditsDiscountStrategy();
     public Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType,
             Long seatNumber, double price) {
@@ -77,6 +79,8 @@ public class OrderServiceImpl implements OrderService {
             RouteEntity route = routeDao.findById(train.getRouteId()).get();
             int startIndex = route.getStationIds().indexOf(order.getDepartureStationId());
             int endIndex = route.getStationIds().indexOf(order.getArrivalStationId());
+            if (compareTime(order.getUpdatedAt(), ONE_DAY) && order.getStatus().equals(OrderStatus.PAID))
+                order.setStatus(OrderStatus.COMPLETED);
             try {
                 return OrderVO.builder().id(order.getId()).trainId(order.getTrainId())
                         .seat(order.getSeat()).status(getOrderStatus(order).getText())
@@ -87,6 +91,7 @@ public class OrderServiceImpl implements OrderService {
                         .arrivalTime(train.getArrivalTimes().get(endIndex))
                         .price(order.getPrice())
                         .discount(order.getDiscount())
+                        .status(order.getStatus().getText())
                         .build();
             } catch (AlipayApiException e) {
                 throw new RuntimeException(e);
@@ -112,6 +117,12 @@ public class OrderServiceImpl implements OrderService {
                 .build();
     }
     
+    private boolean compareTime(Date time, long index) {
+        Date present = new Date();
+        long diff = time.getTime() - present.getTime();
+        return diff > index;
+    }
+    
     public OrderStatus getOrderStatus(OrderEntity orderEntity) throws AlipayApiException {
         return choosePayment(orderEntity.getPaymentType()).query(orderEntity);
     }
@@ -120,7 +131,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity order = orderDao.findById(id).get();
         UserEntity user = userDao.findById(order.getUserId()).get();
 
-        if (order.getStatus() == OrderStatus.COMPLETED) {
+        if (order.getStatus() != OrderStatus.PENDING_PAYMENT) {
             throw new BizException(BizError.ILLEAGAL_ORDER_STATUS);
         }
         
@@ -138,7 +149,6 @@ public class OrderServiceImpl implements OrderService {
         }
         
         String responseBody = choosePayment(paymentType).pay(order, user);
-        order.setStatus(OrderStatus.PAID);
         user.setCredits((int) Math.floor(user.getCredits() + order.getPrice()));
         
         orderDao.save(order);
@@ -157,6 +167,7 @@ public class OrderServiceImpl implements OrderService {
         }
         
         choosePayment(order.getPaymentType()).refund(order, user);
+        user.setCredits((int) Math.floor(user.getCredits() - order.getPrice()));
         order.setStatus(OrderStatus.REFUNDED);
         orderDao.save(order);
         userDao.save(user);
