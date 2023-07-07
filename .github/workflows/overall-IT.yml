@@ -16,16 +16,8 @@ jobs:
           username: ${{ secrets.USERNAME }} #服务器ssh用户名
           password: ${{ secrets.PASSWORD }} #服务器ssh密码
           port: ${{ secrets.PORT }} # 服务器ssh端口（默认22）
-      
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      
-      - name: Install Apifox CLI
-        run: npm install -g apifox-cli
-      
-      - name: Running Test Scenario
-        run: |
-          sleep 30s
-          apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368475/detail?token=xgJg2kIMA1GXhaTnzM63zW -r html,cli
+          run: |
+            sleep 120s
+            npm install -g apifox-cli
+            apifox run https://api.apifox.cn/api/v1/projects/2982605/api-test/ci-config/368475/detail?token=xgJg2kIMA1GXhaTnzM63zW -r html,cli
+ 
