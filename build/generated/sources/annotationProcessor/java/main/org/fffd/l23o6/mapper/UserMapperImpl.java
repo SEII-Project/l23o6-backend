@@ -6,7 +6,7 @@ import org.fffd.l23o6.pojo.vo.user.UserVO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-07T15:09:51+0800",
+    date = "2023-07-08T08:16:27+0800",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.6.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 public class UserMapperImpl implements UserMapper {

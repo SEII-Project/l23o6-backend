@@ -29,7 +29,7 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">1</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.205s</div>
+<div class="counter">0.542s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">0%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,114 +61,13 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Failed tests</a>
+<a href="#tab0">Tests</a>
 </li>
 <li>
-<a href="#tab1">Tests</a>
-</li>
-<li>
-<a href="#tab2">Standard output</a>
+<a href="#tab1">Standard output</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="createOrderTest1()"></a>
-<h3 class="failures">createOrderTest1()</h3>
-<span class="code">
-<pre>io.github.lyc8503.spring.starter.incantation.exception.BizException: 用户名已存在
-	at app//org.fffd.l23o6.service.impl.UserServiceImpl.register(UserServiceImpl.java:24)
-	at app//org.fffd.l23o6.OrderServiceImplTests.createOrderTest1(OrderServiceImplTests.java:24)
-	at java.base@17.0.7/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base@17.0.7/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base@17.0.7/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base@17.0.7/java.lang.reflect.Method.invoke(Method.java:568)
-	at app//org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
-	at app//org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-	at app//org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-	at app//org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-	at app//org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
-	at app//org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
-	at app//org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
-	at app//org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
-	at app//org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-	at app//org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-	at app//org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
-	at app//org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
-	at app//org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
-	at app//org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
-	at app//org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:217)
-	at app//org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at app//org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
-	at app//org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
-	at app//org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
-	at app//org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at app//org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at app//org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base@17.0.7/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at app//org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at app//org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at app//org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at app//org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base@17.0.7/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at app//org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at app//org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at app//org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at app//org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at app//org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at app//org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at app//org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at app//org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
-	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
-	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
-	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)
-	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)
-	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:62)
-	at java.base@17.0.7/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base@17.0.7/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base@17.0.7/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base@17.0.7/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
-	at jdk.proxy1/jdk.proxy1.$Proxy2.stop(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker$3.run(TestWorker.java:193)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60)
-	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
-	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:113)
-	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:65)
-	at app//worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
-	at app//worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-</pre>
-</span>
-</div>
-</div>
-<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -179,23 +78,23 @@
 </tr>
 </thead>
 <tr>
-<td class="failures">createOrderTest1()</td>
-<td class="failures">0.205s</td>
-<td class="failures">failed</td>
+<td class="success">createOrderTest1()</td>
+<td class="success">0.542s</td>
+<td class="success">passed</td>
 </tr>
 </table>
 </div>
-<div id="tab2" class="tab">
+<div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>17:11:31.043 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Neither @ContextConfiguration nor @ContextHierarchy found for test class [OrderServiceImplTests]: using SpringBootContextLoader
-17:11:31.047 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader -- Could not detect default resource locations for test class [org.fffd.l23o6.OrderServiceImplTests]: no resource found for suffixes {-context.xml, Context.groovy}.
-17:11:31.049 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [org.fffd.l23o6.OrderServiceImplTests]: OrderServiceImplTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-17:11:31.066 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Using ContextCustomizers for test class [OrderServiceImplTests]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
-17:11:31.121 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider -- Identified candidate component class: file [/home/cardigan/l23o6-backend/build/classes/java/main/org/fffd/l23o6/L23o6Application.class]
-17:11:31.122 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.fffd.l23o6.L23o6Application for test class org.fffd.l23o6.OrderServiceImplTests
-17:11:31.178 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Using TestExecutionListeners for test class [OrderServiceImplTests]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
-17:11:31.179 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener -- Before test class: class [OrderServiceImplTests], class annotated with @DirtiesContext [false] with mode [null]
+<pre>08:16:28.810 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Neither @ContextConfiguration nor @ContextHierarchy found for test class [OrderServiceImplTests]: using SpringBootContextLoader
+08:16:28.814 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader -- Could not detect default resource locations for test class [org.fffd.l23o6.OrderServiceImplTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+08:16:28.814 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [org.fffd.l23o6.OrderServiceImplTests]: OrderServiceImplTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+08:16:28.829 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Using ContextCustomizers for test class [OrderServiceImplTests]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
+08:16:28.877 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider -- Identified candidate component class: file [/home/cardigan/l23o6-backend/build/classes/java/main/org/fffd/l23o6/L23o6Application.class]
+08:16:28.878 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.fffd.l23o6.L23o6Application for test class org.fffd.l23o6.OrderServiceImplTests
+08:16:28.942 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Using TestExecutionListeners for test class [OrderServiceImplTests]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
+08:16:28.943 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener -- Before test class: class [OrderServiceImplTests], class annotated with @DirtiesContext [false] with mode [null]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -205,29 +104,42 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.0.5)
 
-2023-07-07T17:11:31.367+08:00  INFO 44364 --- [    Test worker] org.fffd.l23o6.OrderServiceImplTests     : Starting OrderServiceImplTests using Java 17.0.7 with PID 44364 (started by cardigan in /home/cardigan/l23o6-backend)
-2023-07-07T17:11:31.368+08:00  INFO 44364 --- [    Test worker] org.fffd.l23o6.OrderServiceImplTests     : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2023-07-07T17:11:31.904+08:00  INFO 44364 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2023-07-07T17:11:31.906+08:00  INFO 44364 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2023-07-07T17:11:32.008+08:00  INFO 44364 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 95 ms. Found 5 JPA repository interfaces.
-2023-07-07T17:11:32.021+08:00  INFO 44364 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2023-07-07T17:11:32.021+08:00  INFO 44364 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2023-07-07T17:11:32.034+08:00  INFO 44364 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.OrderDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2023-07-07T17:11:32.034+08:00  INFO 44364 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.RouteDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2023-07-07T17:11:32.034+08:00  INFO 44364 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.StationDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2023-07-07T17:11:32.034+08:00  INFO 44364 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.TrainDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2023-07-07T17:11:32.035+08:00  INFO 44364 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.UserDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2023-07-07T17:11:32.035+08:00  INFO 44364 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
-2023-07-07T17:11:32.334+08:00  INFO 44364 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2023-07-07T17:11:32.359+08:00  INFO 44364 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.7.Final
-2023-07-07T17:11:32.500+08:00  INFO 44364 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-07-07T17:11:32.661+08:00  INFO 44364 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@62883f8a
-2023-07-07T17:11:32.665+08:00  INFO 44364 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-07-07T17:11:32.677+08:00  INFO 44364 --- [    Test worker] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL95Dialect
-2023-07-07T17:11:32.679+08:00  WARN 44364 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000026: PostgreSQL95Dialect has been deprecated; use org.hibernate.dialect.PostgreSQLDialect instead
-2023-07-07T17:11:33.278+08:00  INFO 44364 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023-07-07T17:11:33.283+08:00  INFO 44364 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023-07-07T17:11:33.748+08:00  WARN 44364 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-08T08:16:29.144+08:00  INFO 112354 --- [    Test worker] org.fffd.l23o6.OrderServiceImplTests     : Starting OrderServiceImplTests using Java 17.0.7 with PID 112354 (started by cardigan in /home/cardigan/l23o6-backend)
+2023-07-08T08:16:29.145+08:00  INFO 112354 --- [    Test worker] org.fffd.l23o6.OrderServiceImplTests     : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2023-07-08T08:16:29.688+08:00  INFO 112354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-08T08:16:29.689+08:00  INFO 112354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-08T08:16:29.789+08:00  INFO 112354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 95 ms. Found 5 JPA repository interfaces.
+2023-07-08T08:16:29.804+08:00  INFO 112354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-08T08:16:29.805+08:00  INFO 112354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-07-08T08:16:29.815+08:00  INFO 112354 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.OrderDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2023-07-08T08:16:29.816+08:00  INFO 112354 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.RouteDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2023-07-08T08:16:29.816+08:00  INFO 112354 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.StationDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2023-07-08T08:16:29.816+08:00  INFO 112354 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.TrainDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2023-07-08T08:16:29.817+08:00  INFO 112354 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface org.fffd.l23o6.dao.UserDao; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2023-07-08T08:16:29.817+08:00  INFO 112354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2023-07-08T08:16:30.134+08:00  INFO 112354 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-08T08:16:30.159+08:00  INFO 112354 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.7.Final
+2023-07-08T08:16:30.304+08:00  INFO 112354 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-07-08T08:16:30.467+08:00  INFO 112354 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@e91facf
+2023-07-08T08:16:30.471+08:00  INFO 112354 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-07-08T08:16:30.488+08:00  INFO 112354 --- [    Test worker] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL95Dialect
+2023-07-08T08:16:30.489+08:00  WARN 112354 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000026: PostgreSQL95Dialect has been deprecated; use org.hibernate.dialect.PostgreSQLDialect instead
+Hibernate: drop table if exists order_entity cascade
+Hibernate: drop table if exists route_entity cascade
+Hibernate: drop table if exists station_entity cascade
+Hibernate: drop table if exists train_entity cascade
+Hibernate: drop table if exists user1 cascade
+Hibernate: create table order_entity (id bigserial not null, arrival_station_id bigint not null, created_at timestamp(6), departure_station_id bigint not null, discount float(53) not null, payment_type smallint not null, price float(53) not null, seat varchar(255) not null, status smallint not null, trade_id varchar(255), train_id bigint not null, updated_at timestamp(6), user_id bigint not null, primary key (id))
+Hibernate: create table route_entity (id bigserial not null, created_at timestamp(6), name varchar(255) not null, station_ids bigint array, updated_at timestamp(6), primary key (id))
+Hibernate: create table station_entity (id bigserial not null, created_at timestamp(6), name varchar(255) not null, updated_at timestamp(6), primary key (id))
+Hibernate: create table train_entity (id bigserial not null, arrival_times timestamp(6) array not null, created_at timestamp(6), date varchar(255) not null, departure_times timestamp(6) array not null, extra_infos smallint array not null, name varchar(255) not null, route_id bigint not null, seats boolean[][] not null, train_type smallint not null, updated_at timestamp(6), primary key (id))
+Hibernate: create table user1 (id bigserial not null, created_at timestamp(6), credits integer not null, deposit float(53) not null, idn varchar(255), name varchar(255), password varchar(255) not null, phone varchar(255), type varchar(255), updated_at timestamp(6), user_type smallint, username varchar(255) not null, primary key (id))
+Hibernate: alter table if exists route_entity add constraint UK_ogvhgu3i441ooqipgex4t19i0 unique (name)
+Hibernate: alter table if exists station_entity add constraint UK_bhgm48i1rf447wgxb3h971g3y unique (name)
+Hibernate: alter table if exists user1 add constraint UK_8k5d0ggn8tv81t20gjbje6ftw unique (username)
+2023-07-08T08:16:31.182+08:00  INFO 112354 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-08T08:16:31.187+08:00  INFO 112354 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-08T08:16:31.635+08:00  WARN 112354 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 ____ ____    ___ ____ _  _ ____ _  _ 
 [__  |__| __  |  |  | |_/  |___ |\ | 
 ___] |  |     |  |__| | \_ |___ | \| 
@@ -235,8 +147,44 @@ https://sa-token.cc (v1.34.0)
 SaLog --&gt;: 全局配置 SaTokenConfig [tokenName=satoken, timeout=2592000, activityTimeout=-1, isConcurrent=true, isShare=true, maxLoginCount=12, isReadBody=true, isReadHeader=true, isReadCookie=true, isWriteHeader=false, tokenStyle=uuid, dataRefreshPeriod=30, tokenSessionCheckLogin=true, autoRenew=true, tokenPrefix=null, isPrint=true, isLog=true, logLevel=trace, logLevelInt=1, jwtSecretKey=null, basic=, currDomain=null, sameTokenTimeout=86400, checkSameToken=false, cookie=SaCookieConfig [domain=null, path=null, secure=false, httpOnly=false, sameSite=null]] 
 SaLog --&gt;: 全局组件 SaTokenContext 载入成功: cn.dev33.satoken.spring.SaTokenContextForSpringInJakartaServlet
 SaLog --&gt;: 全局组件 SaJsonTemplate 载入成功: cn.dev33.satoken.spring.json.SaJsonTemplateForJackson
-2023-07-07T17:11:34.268+08:00  INFO 44364 --- [    Test worker] org.fffd.l23o6.OrderServiceImplTests     : Started OrderServiceImplTests in 3.065 seconds (process running for 3.736)
+2023-07-08T08:16:32.088+08:00  INFO 112354 --- [    Test worker] org.fffd.l23o6.OrderServiceImplTests     : Started OrderServiceImplTests in 3.12 seconds (process running for 3.726)
 Hibernate: select u1_0.id,u1_0.created_at,u1_0.credits,u1_0.deposit,u1_0.idn,u1_0.name,u1_0.password,u1_0.phone,u1_0.type,u1_0.updated_at,u1_0.user_type,u1_0.username from user1 u1_0 where u1_0.username=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.credits,u1_0.deposit,u1_0.idn,u1_0.name,u1_0.password,u1_0.phone,u1_0.type,u1_0.updated_at,u1_0.user_type,u1_0.username from user1 u1_0 where u1_0.username=?
+Hibernate: insert into user1 (created_at, credits, deposit, idn, name, password, phone, type, updated_at, user_type, username) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.credits,u1_0.deposit,u1_0.idn,u1_0.name,u1_0.password,u1_0.phone,u1_0.type,u1_0.updated_at,u1_0.user_type,u1_0.username from user1 u1_0 where u1_0.username=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: insert into station_entity (created_at, name, updated_at) values (?, ?, ?)
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: insert into station_entity (created_at, name, updated_at) values (?, ?, ?)
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: insert into station_entity (created_at, name, updated_at) values (?, ?, ?)
+Hibernate: select r1_0.id,r1_0.created_at,r1_0.name,r1_0.station_ids,r1_0.updated_at from route_entity r1_0 where r1_0.name=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: insert into route_entity (created_at, name, station_ids, updated_at) values (?, ?, ?, ?)
+Hibernate: select r1_0.id,r1_0.created_at,r1_0.name,r1_0.station_ids,r1_0.updated_at from route_entity r1_0 order by r1_0.name asc
+Hibernate: select r1_0.id,r1_0.created_at,r1_0.name,r1_0.station_ids,r1_0.updated_at from route_entity r1_0 order by r1_0.name asc
+Hibernate: select r1_0.id,r1_0.created_at,r1_0.name,r1_0.station_ids,r1_0.updated_at from route_entity r1_0 order by r1_0.name asc
+Hibernate: select count(*) from route_entity r1_0 where r1_0.id=?
+Hibernate: select t1_0.id,t1_0.arrival_times,t1_0.created_at,t1_0.date,t1_0.departure_times,t1_0.extra_infos,t1_0.name,t1_0.route_id,t1_0.seats,t1_0.train_type,t1_0.updated_at from train_entity t1_0 where t1_0.name=?
+Hibernate: select r1_0.id,r1_0.created_at,r1_0.name,r1_0.station_ids,r1_0.updated_at from route_entity r1_0 where r1_0.id=?
+Hibernate: insert into train_entity (arrival_times, created_at, date, departure_times, extra_infos, name, route_id, seats, train_type, updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: select t1_0.id,t1_0.arrival_times,t1_0.created_at,t1_0.date,t1_0.departure_times,t1_0.extra_infos,t1_0.name,t1_0.route_id,t1_0.seats,t1_0.train_type,t1_0.updated_at from train_entity t1_0
+Hibernate: select r1_0.id,r1_0.created_at,r1_0.name,r1_0.station_ids,r1_0.updated_at from route_entity r1_0 where r1_0.id=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: select s1_0.id,s1_0.created_at,s1_0.name,s1_0.updated_at from station_entity s1_0 where s1_0.name=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.credits,u1_0.deposit,u1_0.idn,u1_0.name,u1_0.password,u1_0.phone,u1_0.type,u1_0.updated_at,u1_0.user_type,u1_0.username from user1 u1_0 where u1_0.username=?
+Hibernate: select t1_0.id,t1_0.arrival_times,t1_0.created_at,t1_0.date,t1_0.departure_times,t1_0.extra_infos,t1_0.name,t1_0.route_id,t1_0.seats,t1_0.train_type,t1_0.updated_at from train_entity t1_0 where t1_0.id=?
+Hibernate: select r1_0.id,r1_0.created_at,r1_0.name,r1_0.station_ids,r1_0.updated_at from route_entity r1_0 where r1_0.id=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.credits,u1_0.deposit,u1_0.idn,u1_0.name,u1_0.password,u1_0.phone,u1_0.type,u1_0.updated_at,u1_0.user_type,u1_0.username from user1 u1_0 where u1_0.username=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.credits,u1_0.deposit,u1_0.idn,u1_0.name,u1_0.password,u1_0.phone,u1_0.type,u1_0.updated_at,u1_0.user_type,u1_0.username from user1 u1_0 where u1_0.username=?
+Hibernate: select t1_0.id,t1_0.arrival_times,t1_0.created_at,t1_0.date,t1_0.departure_times,t1_0.extra_infos,t1_0.name,t1_0.route_id,t1_0.seats,t1_0.train_type,t1_0.updated_at from train_entity t1_0 where t1_0.id=?
+Hibernate: update train_entity set arrival_times=?, created_at=?, date=?, departure_times=?, extra_infos=?, name=?, route_id=?, seats=?, train_type=?, updated_at=? where id=?
+Hibernate: insert into order_entity (arrival_station_id, created_at, departure_station_id, discount, payment_type, price, seat, status, trade_id, train_id, updated_at, user_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 </pre>
 </span>
 </div>
@@ -248,7 +196,7 @@ Hibernate: select u1_0.id,u1_0.created_at,u1_0.credits,u1_0.deposit,u1_0.idn,u1_
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.6.1</a> at Jul 7, 2023, 5:11:34 PM</p>
+<a href="http://www.gradle.org">Gradle 7.6.1</a> at Jul 8, 2023, 8:16:32 AM</p>
 </div>
 </div>
 </body>
