@@ -31,7 +31,12 @@ import lombok.RequiredArgsConstructor;
 public class TrainServiceImpl implements TrainService {
     private final TrainDao trainDao;
     private final RouteDao routeDao;
-
+    
+    /**
+     *
+     * @param trainId
+     * @return
+     */
     @Override
     public TrainDetailVO getTrain(Long trainId) {
         TrainEntity train = trainDao.findById(trainId).get();
@@ -40,7 +45,14 @@ public class TrainServiceImpl implements TrainService {
                 .stationIds(route.getStationIds()).arrivalTimes(train.getArrivalTimes())
                 .departureTimes(train.getDepartureTimes()).extraInfos(train.getExtraInfosText()).build();
     }
-
+    
+    /**
+     *
+     * @param startStationId
+     * @param endStationId
+     * @param date
+     * @return
+     */
     @Override
     public List<TrainVO> listTrains(Long startStationId, Long endStationId, String date) {
         // First, get all routes contains [startCity, endCity]
@@ -102,13 +114,27 @@ public class TrainServiceImpl implements TrainService {
         // Finally, return the trains
         return trainVOs;
     }
-
+    
+    /**
+     *
+     * @return
+     */
     @Override
     public List<AdminTrainVO> listTrainsAdmin() {
         return trainDao.findAll(Sort.by(Sort.Direction.ASC, "name")).stream()
                 .map(TrainMapper.INSTANCE::toAdminTrainVO).collect(Collectors.toList());
     }
-
+    
+    /**
+     *
+     * @param name
+     * @param routeId
+     * @param type
+     * @param date
+     * @param arrivalTimes
+     * @param departureTimes
+     * @param extraInfos
+     */
     @Override
     public void addTrain(String name, Long routeId, TrainType type, String date, List<Date> arrivalTimes,
                          List<Date> departureTimes, List<TrainStatus> extraInfos) {
@@ -130,7 +156,18 @@ public class TrainServiceImpl implements TrainService {
         }
         trainDao.save(entity);
     }
-
+    
+    /**
+     *
+     * @param id
+     * @param name
+     * @param routeId
+     * @param type
+     * @param date
+     * @param arrivalTimes
+     * @param departureTimes
+     * @param extraInfos
+     */
     @Override
     public void changeTrain(Long id, String name, Long routeId, TrainType type, String date, List<Date> arrivalTimes,
                             List<Date> departureTimes, List<TrainStatus> extraInfos) {
@@ -138,7 +175,11 @@ public class TrainServiceImpl implements TrainService {
         entity.setName(name).setRouteId(routeId).setTrainType(type).setDate(date).setArrivalTimes(arrivalTimes).setDepartureTimes(departureTimes).setExtraInfos(extraInfos);
         trainDao.save(entity);
     }
-
+    
+    /**
+     *
+     * @param id
+     */
     @Override
     public void deleteTrain(Long id) {
         trainDao.deleteById(id);

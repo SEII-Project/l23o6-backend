@@ -13,10 +13,10 @@ import org.fffd.l23o6.pojo.entity.TrainEntity;
 public class GSeriesSeatStrategy extends TrainSeatStrategy {
     public static final GSeriesSeatStrategy INSTANCE = new GSeriesSeatStrategy();
      
-    private final Map<Integer, String> BUSINESS_SEAT_MAP = new HashMap<>();
-    private final Map<Integer, String> FIRST_CLASS_SEAT_MAP = new HashMap<>();
-    private final Map<Integer, String> SECOND_CLASS_SEAT_MAP = new HashMap<>();
-    private final Map<Integer, String> NO_SEAT_MAP = new HashMap<>();
+    public final Map<Integer, String> BUSINESS_SEAT_MAP = new HashMap<>();
+    public final Map<Integer, String> FIRST_CLASS_SEAT_MAP = new HashMap<>();
+    public final Map<Integer, String> SECOND_CLASS_SEAT_MAP = new HashMap<>();
+    public final Map<Integer, String> NO_SEAT_MAP = new HashMap<>();
 
     private final Map<GSeriesSeatType, Map<Integer, String>> TYPE_MAP = new HashMap<>() {{
         put(GSeriesSeatType.BUSINESS_SEAT, BUSINESS_SEAT_MAP);
@@ -31,8 +31,9 @@ public class GSeriesSeatStrategy extends TrainSeatStrategy {
         put(GSeriesSeatType.SECOND_CLASS_SEAT, 20);
         put(GSeriesSeatType.NO_SEAT, 10);
     }};
-
-
+    
+    public Map<GSeriesSeatType, Map<Integer, String>> getTYPE_MAP() {return TYPE_MAP;}
+    
     private GSeriesSeatStrategy() {
 
         int counter = 0;

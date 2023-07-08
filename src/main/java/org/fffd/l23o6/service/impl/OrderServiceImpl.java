@@ -39,6 +39,18 @@ public class OrderServiceImpl implements OrderService {
     private final RouteDao routeDao;
     private final long ONE_DAY = 24 * 60 * 60 * 1000;
     private final CreditsDiscountStrategy creditsDiscountStrategy = new CreditsDiscountStrategy();
+    
+    /**
+     *
+     * @param username
+     * @param trainId
+     * @param fromStationId
+     * @param toStationId
+     * @param seatType
+     * @param seatNumber
+     * @param price: 打折后的价格
+     * @return
+     */
     public Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType,
             Long seatNumber, double price) {
         Long userId = userDao.findByUsername(username).getId();
@@ -69,7 +81,12 @@ public class OrderServiceImpl implements OrderService {
         orderDao.save(order);
         return order.getId();
     }
-
+    
+    /**
+     *
+     * @param username
+     * @return
+     */
     public List<OrderVO> listOrders(String username) {
         Long userId = userDao.findByUsername(username).getId();
         List<OrderEntity> orders = orderDao.findByUserId(userId);
@@ -98,7 +115,13 @@ public class OrderServiceImpl implements OrderService {
             }
         }).collect(Collectors.toList());
     }
-
+    
+    /**
+     *
+     * @param id
+     * @return
+     * @throws AlipayApiException
+     */
     public OrderVO getOrder(Long id) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
         TrainEntity train = trainDao.findById(order.getTrainId()).get();
@@ -118,12 +141,24 @@ public class OrderServiceImpl implements OrderService {
                 .build();
     }
     
+    /**
+     *
+     * @param time
+     * @param index
+     * @return
+     */
     private boolean compareTime(Date time, long index) {
         Date present = new Date();
         long diff = time.getTime() - present.getTime();
         return diff > index;
     }
     
+    /**
+     *
+     * @param orderEntity
+     * @return
+     * @throws AlipayApiException
+     */
     public OrderStatus getOrderStatus(OrderEntity orderEntity) throws AlipayApiException {
         return choosePayment(orderEntity.getPaymentType()).query(orderEntity);
     }
@@ -139,7 +174,14 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.CANCELLED);
         orderDao.save(order);
     }
-
+    
+    /**
+     *
+     * @param id
+     * @param paymentType: 微信支付/支付宝支付
+     * @return
+     * @throws AlipayApiException
+     */
     public String payOrder(Long id, PaymentType paymentType) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
         UserEntity user = userDao.findById(order.getUserId()).get();
@@ -158,6 +200,11 @@ public class OrderServiceImpl implements OrderService {
         return responseBody;
     }
     
+    /**
+     *
+     * @param id
+     * @throws AlipayApiException
+     */
     @Override
     public void refundOrder(final Long id) throws AlipayApiException {
         OrderEntity order = orderDao.findById(id).get();
@@ -174,6 +221,11 @@ public class OrderServiceImpl implements OrderService {
         userDao.save(user);
     }
     
+    /**
+     *
+     * @param type
+     * @return
+     */
     private PaymentStrategy choosePayment(PaymentType type) {
         PaymentFactory paymentFactory = null;
         if (type == PaymentType.ALIPAY_PAY) {

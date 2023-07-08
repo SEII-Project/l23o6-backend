@@ -17,28 +17,53 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RouteServiceImpl implements RouteService {
     private final RouteDao routeDao;
+    
+    /**
+     *
+     * @param name
+     * @param stationIds
+     */
     @Override
     public void addRoute(String name, List<Long> stationIds) {
         RouteEntity route = RouteEntity.builder().name(name).stationIds(stationIds).build();
         routeDao.save(route);
     }
-
+    
+    /**
+     *
+     * @return
+     */
     @Override
     public List<RouteVO> listRoutes() {
         return routeDao.findAll(Sort.by(Sort.Direction.ASC, "name")).stream().map(RouteMapper.INSTANCE::toRouteVO).collect(Collectors.toList());
     }
-
+    
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public RouteVO getRoute(Long id) {
         RouteEntity entity = routeDao.findById(id).get();
         return RouteMapper.INSTANCE.toRouteVO(entity);
     }
-
+    
+    /**
+     *
+     * @param id
+     * @param name
+     * @param stationIds
+     */
     @Override
     public void editRoute(Long id, String name, List<Long> stationIds) {
         routeDao.save(routeDao.findById(id).get().setStationIds(stationIds).setName(name));
     }
-
+    
+    /**
+     *
+     * @param id
+     */
     @Override
     public void deleteRoute(Long id) {
         routeDao.deleteById(id);

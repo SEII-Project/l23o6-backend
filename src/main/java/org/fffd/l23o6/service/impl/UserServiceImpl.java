@@ -15,7 +15,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
-
+    
+    /**
+     *
+     * @param username
+     * @param password
+     * @param name
+     * @param idn
+     * @param phone
+     * @param type
+     * @param userType: 管理员或者用户
+     */
     @Override
     public void register(String username, String password, String name, String idn, String phone, String type, UserType userType) {
         UserEntity user = userDao.findByUsername(username);
@@ -27,12 +37,22 @@ public class UserServiceImpl implements UserService {
         userDao.save(UserEntity.builder().username(username).password(BCrypt.hashpw(password))
                 .name(name).idn(idn).credits(0).phone(phone).type(type).userType(userType).deposit(100000).build());
     }
-
+    
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Override
     public UserEntity findByUserName(String username) {
         return userDao.findByUsername(username);
     }
-
+    
+    /**
+     *
+     * @param username
+     * @param password
+     */
     @Override
     public void login(String username, String password) {
         UserEntity user = userDao.findByUsername(username);
@@ -40,7 +60,15 @@ public class UserServiceImpl implements UserService {
             throw new BizException(BizError.INVALID_CREDENTIAL);
         }
     }
-
+    
+    /**
+     *
+     * @param username
+     * @param name
+     * @param idn
+     * @param phone
+     * @param type
+     */
     @Override
     public void editInfo(String username, String name, String idn, String phone, String type){
         UserEntity user = userDao.findByUsername(username);
