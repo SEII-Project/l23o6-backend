@@ -83,11 +83,9 @@ public class GSeriesSeatStrategy extends TrainSeatStrategy {
             case NO_SEAT -> BUSINESS_SEAT_MAP.size() + FIRST_CLASS_SEAT_MAP.size() + SECOND_CLASS_SEAT_MAP.size();
             default -> 0;
         };
-
         for (int i = startIndex; i < startIndex + TYPE_MAP.get(type).size(); i++) {
             for (int j = startStationIndex; j < endStationIndex; j++) {
-                if (seatMap[j][i])
-                    break;
+                if (seatMap[j][i]) break;
                 if (j == endStationIndex - 1) {
                     for (int k = startStationIndex; k < endStationIndex; k++) {
                         seatMap[k][i] = true;

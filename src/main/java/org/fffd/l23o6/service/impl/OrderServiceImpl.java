@@ -39,7 +39,6 @@ public class OrderServiceImpl implements OrderService {
     private final RouteDao routeDao;
     private final long ONE_DAY = 24 * 60 * 60 * 1000;
     private final CreditsDiscountStrategy creditsDiscountStrategy = new CreditsDiscountStrategy();
-
     public Long createOrder(String username, Long trainId, Long fromStationId, Long toStationId, String seatType,
             Long seatNumber, double price) {
         Long userId = userDao.findByUsername(username).getId();
