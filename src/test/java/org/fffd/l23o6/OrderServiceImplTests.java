@@ -63,7 +63,7 @@ public class OrderServiceImplTests {
         }
         assert routeID != -1L;
         assert routeDao.existsById(routeID);
-        if (null == trainDao.findByName("京南线")) {
+        if (null == trainDao.findByName("G0001")) {
             trainService.addTrain("G0001",routeID,TrainType.HIGH_SPEED,"2023-7-8",
                     new ArrayList<>(Arrays.asList(
                             new Date(2023,Calendar.JULY,8,20,0),
@@ -109,7 +109,7 @@ public class OrderServiceImplTests {
         }
         assert routeID != -1L;
         assert routeDao.existsById(routeID);
-        if (null == trainDao.findByName("京广线")) {
+        if (null == trainDao.findByName("G0002")) {
             trainService.addTrain("G0002",routeID,TrainType.HIGH_SPEED,"2023-7-8",
                     new ArrayList<>(Arrays.asList(
                             new Date(2023,Calendar.JULY,8,20,0),
@@ -154,7 +154,7 @@ public class OrderServiceImplTests {
         }
         assert routeID != -1L;
         assert routeDao.existsById(routeID);
-        if (null == trainDao.findByName("京海线")) {
+        if (null == trainDao.findByName("G0003")) {
             trainService.addTrain("G0003",routeID,TrainType.HIGH_SPEED,"2023-7-8",
                     new ArrayList<>(Arrays.asList(
                             new Date(2023,Calendar.JULY,8,20,0),
@@ -201,7 +201,7 @@ public class OrderServiceImplTests {
         }
         assert routeID != -1L;
         assert routeDao.existsById(routeID);
-        if (null == trainDao.findByName("新粤线")) {
+        if (null == trainDao.findByName("G0004")) {
             trainService.addTrain("G0004",routeID,TrainType.HIGH_SPEED,"2023-7-8",
                     new ArrayList<>(Arrays.asList(
                             new Date(2023,Calendar.JULY,8,20,0),
@@ -243,24 +243,24 @@ public class OrderServiceImplTests {
         OrderEntity entity2 = new OrderEntity();
         entity2.setUserId(userID);
         entity2.setTrainId(2L);
-        entity2.setDepartureStationId(3L);
-        entity2.setArrivalStationId(4L);
+        entity2.setDepartureStationId(4L);
+        entity2.setArrivalStationId(5L);
         entity2.setStatus(OrderStatus.PAID);
         entity2.setSeat("一等座");
         entity2.setPrice(50);
         entity2.setDiscount(0);
-        entity2.setPaymentType(PaymentType.ALIPAY_PAY);
+        entity2.setPaymentType(PaymentType.WECHAT_PAY);
 
         OrderEntity entity3 = new OrderEntity();
         entity3.setUserId(userID);
         entity3.setTrainId(3L);
-        entity3.setDepartureStationId(5L);
-        entity3.setArrivalStationId(6L);
+        entity3.setDepartureStationId(1L);
+        entity3.setArrivalStationId(7L);
         entity3.setStatus(OrderStatus.PENDING_PAYMENT);
         entity3.setSeat("二等座");
         entity3.setPrice(30);
         entity3.setDiscount(0);
-        entity3.setPaymentType(PaymentType.ALIPAY_PAY);
+        entity3.setPaymentType(PaymentType.WECHAT_PAY);
 
         orderDao.save(entity1);
         orderDao.save(entity2);
@@ -280,22 +280,23 @@ public class OrderServiceImplTests {
         OrderEntity entity = new OrderEntity();
         entity.setUserId(userID);
         entity.setTrainId(4L);
-        entity.setDepartureStationId(7L);
-        entity.setArrivalStationId(8L);
+        entity.setDepartureStationId(8L);
+        entity.setArrivalStationId(9L);
         entity.setStatus(OrderStatus.PENDING_PAYMENT);
         entity.setSeat("商务座");
         entity.setPrice(100);
         entity.setDiscount(0);
         entity.setPaymentType(PaymentType.WECHAT_PAY);
-        entity.setId(1000L);
+        entity.setTradeId("1000");
+        orderDao.save(entity);
 
         OrderServiceImpl orderService = new OrderServiceImpl(orderDao,userDao,trainDao,routeDao);
         try{
-            orderService.cancelOrder(1000L);
-        }catch (Exception e){
+            orderService.cancelOrder(orderDao.findByTradeId("1000").getId());
+        } catch (Exception e){
             System.err.println("cancelOrder throws AlipayApiException");
         }
-        assert entity.getStatus().equals(OrderStatus.CANCELLED);
+        assert orderDao.findByTradeId("1000").getStatus().equals(OrderStatus.CANCELLED);
     }
 
     @Test
@@ -307,22 +308,21 @@ public class OrderServiceImplTests {
         Long userID = userService.findByUserName("xsswsx").getId();
         OrderEntity entity = new OrderEntity();
         entity.setUserId(userID);
-        entity.setTrainId(5L);
-        entity.setDepartureStationId(9L);
-        entity.setArrivalStationId(10L);
+        entity.setTrainId(3L);
+        entity.setDepartureStationId(6L);
+        entity.setArrivalStationId(7L);
         entity.setStatus(OrderStatus.PAID);
         entity.setSeat("商务座");
         entity.setPrice(100);
         entity.setDiscount(0);
         entity.setPaymentType(PaymentType.WECHAT_PAY);
-        entity.setId(1001L);
+        entity.setTradeId("2000");
 
         OrderServiceImpl orderService = new OrderServiceImpl(orderDao,userDao,trainDao,routeDao);
-        try{
-            orderService.cancelOrder(1001L);
-        }catch (Exception e){
-            System.err.println("cancelOrder should throw BizException");
-        }
+        
+        assertThrows(Exception.class, () -> {
+            orderService.cancelOrder(orderDao.findByTradeId("1000").getId());
+        });
         assert entity.getStatus().equals(OrderStatus.PAID);
     }
 
@@ -335,23 +335,24 @@ public class OrderServiceImplTests {
         Long userID = userService.findByUserName("xsswsx").getId();
         OrderEntity entity = new OrderEntity();
         entity.setUserId(userID);
-        entity.setTrainId(6L);
-        entity.setDepartureStationId(11L);
-        entity.setArrivalStationId(12L);
+        entity.setTrainId(2L);
+        entity.setDepartureStationId(4L);
+        entity.setArrivalStationId(5L);
         entity.setStatus(OrderStatus.PAID);
         entity.setSeat("商务座");
         entity.setPrice(100);
         entity.setDiscount(0);
         entity.setPaymentType(PaymentType.WECHAT_PAY);
-        entity.setId(1002L);
+        entity.setTradeId("3000");
+        orderDao.save(entity);
 
         OrderServiceImpl orderService = new OrderServiceImpl(orderDao,userDao,trainDao,routeDao);
         try{
-            orderService.cancelOrder(1002L);
+            orderService.refundOrder(orderDao.findByTradeId("3000").getId());
         }catch (Exception e){
             System.err.println("refundOrder throws AlipayApiException");
         }
-        assert entity.getStatus().equals(OrderStatus.REFUNDED);
+        assert orderDao.findByTradeId("3000").getStatus().equals(OrderStatus.REFUNDED);
     }
 
     @Test
@@ -363,22 +364,21 @@ public class OrderServiceImplTests {
         Long userID = userService.findByUserName("xsswsx").getId();
         OrderEntity entity = new OrderEntity();
         entity.setUserId(userID);
-        entity.setTrainId(7L);
-        entity.setDepartureStationId(13L);
-        entity.setArrivalStationId(14L);
+        entity.setTrainId(1L);
+        entity.setDepartureStationId(1L);
+        entity.setArrivalStationId(2L);
         entity.setStatus(OrderStatus.COMPLETED);
         entity.setSeat("商务座");
         entity.setPrice(100);
         entity.setDiscount(0);
         entity.setPaymentType(PaymentType.WECHAT_PAY);
-        entity.setId(1003L);
+        entity.setTradeId("4000");
+        orderDao.save(entity);
 
         OrderServiceImpl orderService = new OrderServiceImpl(orderDao,userDao,trainDao,routeDao);
-        try{
-            orderService.cancelOrder(1003L);
-        }catch (Exception e){
-            System.err.println("refundOrder should throw BizException");
-        }
+        assertThrows(Exception.class, () -> {
+            orderService.refundOrder(orderDao.findByTradeId("4000").getId());
+        });
         assert entity.getStatus().equals(OrderStatus.COMPLETED);
     }
 }
