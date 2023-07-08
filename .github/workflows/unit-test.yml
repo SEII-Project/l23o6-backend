@@ -60,4 +60,4 @@ jobs:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
         with:
-          gradle-command: test
+          arguments: test
